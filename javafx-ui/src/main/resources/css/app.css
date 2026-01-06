@@ -1,0 +1,38 @@
+.title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e40af;
+}
+
+.text-field, .password-field, .choice-box {
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-padding: 12;
+    -fx-font-size: 14px;
+}
+
+.primary-button {
+    -fx-background-color: #1e40af;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 12 30;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.primary-button:hover {
+    -fx-background-color: #1e3a8a;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.secondary-button {  /* For "Back to Login" */
+    -fx-background-color: #6b7280;
+    -fx-text-fill: white;
+}
+
+.secondary-button:hover {
+    -fx-background-color: #4b5563;
+}
+
+.error { -fx-text-fill: #dc2626; }

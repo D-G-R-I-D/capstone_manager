@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Parent coordinates -->
+    <groupId>com.capstone</groupId>
+    <artifactId>CAPSTONE_MANAGER</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+
+    <!-- All modules listed here -->
+    <modules>
+        <module>core</module>
+        <module>swing-ui</module>
+        <module>javafx-ui</module>
+        <module>desktops</module>
+    </modules>
+
+    <!-- Global project settings -->
+    <properties>
+        <maven.compiler.source>24</maven.compiler.source>
+        <maven.compiler.target>24</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <javafx.version>23.0.1</javafx.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+        <groupId>org.mindrot</groupId>
+        <artifactId>jbcrypt</artifactId>
+        <version>0.4</version>
+    </dependency>
+    </dependencies>
+
+</project>
+
+

@@ -1,0 +1,7 @@
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<VBox alignment="CENTER"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.capstone.controllers.SupervisorDashboardController">
+    <Label fx:id="welcomeLabel"/>
+</VBox>

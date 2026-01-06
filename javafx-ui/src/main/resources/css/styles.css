@@ -1,0 +1,57 @@
+/* Base styles */
+.root {
+    -fx-background-color: linear-gradient(to bottom, #f0f4f8, #d9e2ec);  /* Soft blue gradient background */
+    -fx-padding: 20;
+}
+
+/* Title */
+.title-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+    -fx-padding: 10 0;
+}
+
+/* Fields */
+.text-field, .password-field {
+    -fx-background-color: white;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 10;
+    -fx-font-size: 14px;
+}
+
+/* Buttons */
+.primary-button {
+    -fx-background-color: #007bff;  /* Blue for Login */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;  /* Makes it interactive */
+}
+
+.primary-button:hover {
+    -fx-background-color: #0056b3;  /* Darker on hover for interactivity */
+}
+
+.secondary-button {
+    -fx-background-color: #6c757d;  /* Gray for Create Account */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}
+
+.secondary-button:hover {
+    -fx-background-color: #5a6268;
+}
+
+/* Error */
+.error-label {
+    -fx-text-fill: #dc3545;  /* Red for errors */
+    -fx-font-size: 12px;
+    -fx-padding: 5 0;
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="12"
+      alignment="CENTER"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.capstone.controllers.RegisterController"
+      styleClass="auth-container">
+
+    <Label text="Create Account" styleClass="title"/>
+
+    <TextField fx:id="usernameField" promptText="Username"/>
+    <TextField fx:id="emailField" promptText="Email"/>
+    <PasswordField fx:id="passwordField" promptText="Password"/>
+
+    <ChoiceBox fx:id="roleChoice"/>
+
+    <Button text="Register" onAction="#handleRegister" styleClass="primary-button">
+        <tooltip><Tooltip text="Create your account" /></tooltip>
+    </Button>
+
+    <Button text="Back to Login" onAction="#goToLogin"/>
+
+    <Label fx:id="messageLabel" styleClass="error"/>
+
+</VBox>

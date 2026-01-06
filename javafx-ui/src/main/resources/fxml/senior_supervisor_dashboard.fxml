@@ -1,0 +1,23 @@
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.Button?>
+<VBox spacing="10"
+      xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.capstone.controllers.SeniorSupervisorDashboardController">
+
+    <Label fx:id="welcomeLabel" styleClass="header"/>
+
+    <TableView fx:id="projectTable">
+        <columns>
+            <TableColumn fx:id="titleCol" text="Project Title"/>
+            <TableColumn fx:id="supervisorCol" text="Supervisor"/>
+            <TableColumn fx:id="statusCol" text="Status"/>
+        </columns>
+    </TableView>
+
+    <Button text="Logout" onAction="#handleLogout"/>
+
+</VBox>

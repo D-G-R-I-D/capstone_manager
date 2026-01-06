@@ -1,0 +1,21 @@
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.Label?>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.capstone.controllers.StudentDashboardController">
+
+    <top>
+        <Label text="Student Dashboard" styleClass="title"/>
+    </top>
+
+    <center>
+        <TableView fx:id="projectTable">
+            <columns>
+                <TableColumn text="Project Title" fx:id="titleCol"/>
+                <TableColumn text="Status" fx:id="statusCol"/>
+            </columns>
+        </TableView>
+    </center>
+
+</BorderPane>

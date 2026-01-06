@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.capstone</groupId>
+        <artifactId>CAPSTONE_MANAGER</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>core</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>de.huxhorn.sulky</groupId>
+            <artifactId>sulky.ulid</artifactId>
+            <version>8.3.0</version>
+        </dependency>
+
+<!--        <dependency>-->
+<!--                <groupId>org.mindrot</groupId>-->
+<!--                <artifactId>jbcrypt</artifactId>-->
+<!--                <version>0.4</version>-->
+<!--        </dependency>-->
+    </dependencies>
+
+</project>
