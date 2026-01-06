@@ -1,57 +1,130 @@
-/* Base styles */
+/* Overall background - very light gray/blue */
 .root {
-    -fx-background-color: linear-gradient(to bottom, #f0f4f8, #d9e2ec);  /* Soft blue gradient background */
+    -fx-background-color: #e8ecef;
+    -fx-padding: 60;
+}
+
+/* No container styling - keep everything minimal */
+.auth-container {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+/* Logo - subtle rounded corners + very light cream background + soft shadow */
+.logo-image {
+    -fx-background-color: #fdfbf7;  /* Very light cream/beige */
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
     -fx-padding: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 4);
 }
 
-/* Title */
-.title-label {
-    -fx-font-size: 24px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #333333;
-    -fx-padding: 10 0;
+/* Title - smaller, lighter, closer to logo */
+.title {
+    -fx-font-size: 20px;
+    -fx-font-weight: normal;
+    -fx-text-fill: #4a5568;
+    -fx-padding: 20 0 40 0;
 }
 
-/* Fields */
-.text-field, .password-field {
+/* Fields - subtle rounded, light border */
+.text-field, .password-field, .choice-box {
     -fx-background-color: white;
-    -fx-border-color: #cccccc;
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-    -fx-padding: 10;
-    -fx-font-size: 14px;
+    -fx-border-color: #cbd5e0;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-padding: 14;
+    -fx-font-size: 15px;
+    -fx-pref-width: 320;
+    -fx-prompt-text-fill: #a0aec0;
 }
 
-/* Buttons */
+/* Primary button - bright blue, rounded */
 .primary-button {
-    -fx-background-color: #007bff;  /* Blue for Login */
+    -fx-background-color: #4299e1;
     -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-padding: 10 20;
-    -fx-background-radius: 5;
-    -fx-cursor: hand;  /* Makes it interactive */
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-padding: 12 40;
+    -fx-font-size: 15px;
 }
 
 .primary-button:hover {
-    -fx-background-color: #0056b3;  /* Darker on hover for interactivity */
+    -fx-background-color: #3182ce;
 }
 
+/* Secondary button - gray */
 .secondary-button {
-    -fx-background-color: #6c757d;  /* Gray for Create Account */
+    -fx-background-color: #a0aec0;
     -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-padding: 10 35;
     -fx-font-size: 14px;
-    -fx-padding: 10 20;
-    -fx-background-radius: 5;
-    -fx-cursor: hand;
 }
 
 .secondary-button:hover {
-    -fx-background-color: #5a6268;
+    -fx-background-color: #90a0b8;
 }
 
-/* Error */
+/* Error label */
 .error-label {
-    -fx-text-fill: #dc3545;  /* Red for errors */
-    -fx-font-size: 12px;
-    -fx-padding: 5 0;
+    -fx-text-fill: #e53e3e;
+    -fx-font-size: 14px;
+    -fx-padding: 15 0 0 0;
+}
+
+/* Keep dashboard styles (don't touch these) */
+.dashboard-container {
+    -fx-background-color: #f8fafc;
+    -fx-padding: 0;
+}
+
+.header-row {
+    -fx-background-color: white;
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 20 0;
+}
+
+.section {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 4);
+    -fx-padding: 20;
+}
+
+.stats-row {
+    -fx-padding: 20 0;
+}
+
+.stat-card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 12;
+    -fx-padding: 25;
+    -fx-alignment: center;
+    -fx-min-width: 180;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4);
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+}
+
+.stat-number {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e40af;
+}
+
+.stat-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #64748b;
+}
+
+.subtitle {
+    -fx-font-size: 20px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #1e293b;
 }

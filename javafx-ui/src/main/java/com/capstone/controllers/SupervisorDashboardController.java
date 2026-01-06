@@ -22,22 +22,18 @@ public class SupervisorDashboardController {
     @FXML
     public void initialize() {
         Guard.require(Role.SUPERVISOR);
-
         User supervisor = Session.getUser();
-        if (supervisor == null) {
-            throw new IllegalStateException("No session user");
-        }
-        welcomeLabel.setText("Supervisor: " + supervisor.getUsername());
+        if (supervisor == null) throw new IllegalStateException("No session user");
 
-        titleCol.setCellValueFactory(c ->
-                new javafx.beans.property.SimpleStringProperty(c.getValue().getTitle()));
-        statusCol.setCellValueFactory(c ->
-                new javafx.beans.property.SimpleStringProperty(c.getValue().getStatus().name()));
+        welcomeLabel.setText("Supervisor Dashboard: " + supervisor.getUsername());
 
-        projectTable.setItems(
-                FXCollections.observableArrayList(
-                        projectService.getProjectsForSupervisor(supervisor.getId())
-                )
-        );
+        titleCol.setCellValueFactory(cellData ->
+                new javafx.beans.property.SimpleStringProperty(cellData.getValue().getTitle()));
+        statusCol.setCellValueFactory(cellData ->
+                new javafx.beans.property.SimpleStringProperty(cellData.getValue().getStatus().name()));
+
+        projectTable.setItems(FXCollections.observableArrayList(
+                projectService.getProjectsForSupervisor(supervisor.getId())
+        ));
     }
 }

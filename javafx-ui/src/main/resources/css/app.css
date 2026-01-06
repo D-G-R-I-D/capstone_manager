@@ -1,38 +1,41 @@
-.title {
-    -fx-font-size: 28px;
+.header-row {
+    -fx-padding: 20 0;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 0 0 1 0;
+}
+
+.section {
+    -fx-padding: 20;
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);
+}
+
+.stats-row {
+    -fx-padding: 20;
+}
+
+.stat-card {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-padding: 20;
+    -fx-alignment: CENTER;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 2);
+}
+
+.stat-number {
+    -fx-font-size: 24px;
     -fx-font-weight: bold;
     -fx-text-fill: #1e40af;
 }
 
-.text-field, .password-field, .choice-box {
-    -fx-background-radius: 8;
-    -fx-border-radius: 8;
-    -fx-padding: 12;
-    -fx-font-size: 14px;
+.stat-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6b7280;
 }
 
-.primary-button {
-    -fx-background-color: #1e40af;
-    -fx-text-fill: white;
-    -fx-font-size: 16px;
-    -fx-padding: 12 30;
-    -fx-background-radius: 8;
-    -fx-cursor: hand;
+.subtitle {
+    -fx-font-size: 18px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #374151;
 }
-
-.primary-button:hover {
-    -fx-background-color: #1e3a8a;
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
-}
-
-.secondary-button {  /* For "Back to Login" */
-    -fx-background-color: #6b7280;
-    -fx-text-fill: white;
-}
-
-.secondary-button:hover {
-    -fx-background-color: #4b5563;
-}
-
-.error { -fx-text-fill: #dc2626; }

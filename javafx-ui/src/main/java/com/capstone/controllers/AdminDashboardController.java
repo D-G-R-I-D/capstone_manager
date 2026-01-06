@@ -13,7 +13,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
-
 import java.util.Objects;
 
 public class AdminDashboardController {
@@ -27,31 +26,20 @@ public class AdminDashboardController {
 
     @FXML
     public void initialize() {
-        // 🔐 Role-based guard
         Guard.require(Role.ADMIN);
-
-        // 👤 Session user
         User admin = Session.getUser();
-        if (admin == null) {
-            throw new IllegalStateException("No session user");
-        }
+        if (admin == null) throw new IllegalStateException("No session user");
 
-        welcomeLabel.setText("Welcome, " + admin.getUsername());
+        welcomeLabel.setText("Admin Panel: " + admin.getUsername());
 
-        // 📁 Projects
-        projectService.getAllProjects()
-                .forEach(p ->
-                projectList.getItems().add(
-                        p.getTitle() + " (" + p.getStatus().name() + ")"
-                )
+        projectList.getItems().clear();
+        projectService.getAllProjects().forEach(p ->
+                projectList.getItems().add(p.getTitle() + " — " + p.getStatus())
         );
 
-        // 👥 Users
-        userService.getAllUsers()
-                .forEach(u ->
-                userList.getItems().add(
-                        u.getUsername() + " - " + u.getRole().name()
-                )
+        userList.getItems().clear();
+        userService.getAllUsers().forEach(u ->
+                userList.getItems().add(u.getUsername() + " (" + u.getRole() + ")")
         );
     }
 
@@ -59,12 +47,8 @@ public class AdminDashboardController {
     private void handleLogout() throws Exception {
         Session.logout();
         Stage stage = (Stage) welcomeLabel.getScene().getWindow();
-        stage.setScene(new Scene(
-                FXMLLoader.load(
-                        Objects.requireNonNull(
-                                getClass().getResource("/fxml/login.fxml")
-                        )
-                )
-        ));
+        stage.setScene(new Scene(FXMLLoader.load(Objects.requireNonNull(
+                getClass().getResource("/fxml/login.fxml")
+        ))));
     }
 }

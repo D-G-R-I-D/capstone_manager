@@ -16,21 +16,17 @@ public class LoginController {
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private Label errorLabel;
-    @FXML private Button registerButton;
+//    @FXML private Button registerButton;
 
     private final AuthService authService = new AuthService();
 
     @FXML
     public void handleLogin() {
         try {
-            User user = authService.login(
-                    usernameField.getText(),
-                    passwordField.getText()
-            );
-
+            User user = authService.login(usernameField.getText(), passwordField.getText());
             Session.setUser(user);
 
-            String fxml = switch (user.getRole()) {
+            String fxmlPath = switch (user.getRole()) {
                 case ADMIN -> "/fxml/admin_dashboard.fxml";
                 case STUDENT -> "/fxml/student_dashboard.fxml";
                 case SUPERVISOR -> "/fxml/supervisor_dashboard.fxml";
@@ -38,14 +34,14 @@ public class LoginController {
             };
 
             Stage stage = (Stage) usernameField.getScene().getWindow();
-            stage.setScene(new Scene(
-                    FXMLLoader.load(
-                            Objects.requireNonNull(getClass().getResource(fxml))
-                    )
-            ));
+            stage.setScene(new Scene(FXMLLoader.load(Objects.requireNonNull(
+                    getClass().getResource(fxmlPath)
+            ))));
+            stage.setMaximized(true);  // Optional: open dashboard maximized
 
         } catch (Exception e) {
             errorLabel.setText("Invalid username or password");
+            e.printStackTrace();
         }
     }
 
@@ -68,8 +64,8 @@ public class LoginController {
         }
     }
 
-    @FXML
-    private void initialize() {
-        registerButton.setOnAction(e -> goToRegister());
-    }
+//    @FXML
+//    private void initialize() {
+//        registerButton.setOnAction(e -> goToRegister());
+//    }
 }
