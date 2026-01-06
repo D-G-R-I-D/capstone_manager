@@ -5,12 +5,12 @@
 <?import javafx.scene.image.ImageView?>
 
 <?import javafx.scene.image.Image?>
-<VBox spacing="15" alignment="CENTER" maxWidth="400" styleClass="auth-container"
+<VBox spacing="20" alignment="CENTER" maxWidth="450" styleClass="auth-container"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.capstone.controllers.LoginController">  <!-- ADD THIS LINE -->
+      fx:controller="com.capstone.controllers.LoginController">   <!-- THIS LINE IS REQUIRED -->
 
     <!-- Logo -->
-    <ImageView fitWidth="120" fitHeight="120" preserveRatio="true">
+    <ImageView fitWidth="140" fitHeight="140" preserveRatio="true">
         <Image url="@/images/capstone logo 1.jpg"/>
     </ImageView>
 
@@ -22,5 +22,5 @@
     <Button text="Login" onAction="#handleLogin" styleClass="primary-button"/>
     <Button text="Create Account" onAction="#goToRegister" styleClass="secondary-button"/>
 
-    <Label fx:id="errorLabel" styleClass="error"/>
+    <Label fx:id="errorLabel" styleClass="error-label"/>
 </VBox>

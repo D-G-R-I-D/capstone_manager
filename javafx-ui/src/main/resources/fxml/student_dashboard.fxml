@@ -1,21 +1,59 @@
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.Label?>
-<BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.capstone.controllers.StudentDashboardController">
+<?xml version="1.0" encoding="UTF-8"?>
 
-    <top>
-        <Label text="Student Dashboard" styleClass="title"/>
-    </top>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-    <center>
-        <TableView fx:id="projectTable">
+<VBox spacing="20" alignment="TOP_CENTER" styleClass="dashboard-container"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.capstone.controllers.StudentDashboardController">
+
+    <!-- Header Row -->
+    <HBox alignment="CENTER_LEFT" spacing="20" styleClass="header-row">
+        <padding>
+            <Insets top="20" right="40" bottom="20" left="40"/>
+        </padding>
+        <Label fx:id="welcomeLabel" styleClass="title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <HBox spacing="15">
+            <Button text="Submit Proposal" onAction="#submitProposal" styleClass="primary-button"/>
+            <Button text="View Milestones" onAction="#viewMilestones" styleClass="secondary-button"/>
+            <Button text="Logout" onAction="#handleLogout" styleClass="secondary-button"/>
+        </HBox>
+    </HBox>
+
+    <!-- Projects Section -->
+    <VBox spacing="12" styleClass="section">
+        <padding>
+            <Insets top="0" right="40" bottom="20" left="40"/>
+        </padding>
+        <Label text="My Projects" styleClass="subtitle"/>
+        <TableView fx:id="projectTable" prefHeight="450">
             <columns>
-                <TableColumn text="Project Title" fx:id="titleCol"/>
-                <TableColumn text="Status" fx:id="statusCol"/>
+                <TableColumn fx:id="titleCol" text="Project Title" prefWidth="450"/>
+                <TableColumn fx:id="statusCol" text="Status" prefWidth="150"/>
+                <TableColumn fx:id="progressCol" text="Progress" prefWidth="120"/>
+                <TableColumn fx:id="actionsCol" text="Actions" prefWidth="120"/>
             </columns>
         </TableView>
-    </center>
+    </VBox>
 
-</BorderPane>
+    <!-- Stats Cards -->
+    <HBox spacing="30" alignment="CENTER" styleClass="stats-row">
+        <padding>
+            <Insets top="0" right="40" bottom="40" left="40"/>
+        </padding>
+        <VBox alignment="CENTER" styleClass="stat-card">
+            <Label text="0" styleClass="stat-number"/>
+            <Label text="Active Projects" styleClass="stat-label"/>
+        </VBox>
+        <VBox alignment="CENTER" styleClass="stat-card">
+            <Label text="0" styleClass="stat-number"/>
+            <Label text="Pending Milestones" styleClass="stat-label"/>
+        </VBox>
+        <VBox alignment="CENTER" styleClass="stat-card">
+            <Label text="0%" styleClass="stat-number"/>
+            <Label text="Overall Completion" styleClass="stat-label"/>
+        </VBox>
+    </HBox>
+</VBox>

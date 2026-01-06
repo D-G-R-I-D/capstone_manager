@@ -2,27 +2,30 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.ImageView?>
 
-<VBox spacing="12"
-      alignment="CENTER"
+<?import javafx.scene.image.Image?>
+<VBox spacing="20" alignment="CENTER" maxWidth="450" styleClass="auth-container"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.capstone.controllers.RegisterController"
-      styleClass="auth-container">
+      fx:controller="com.capstone.controllers.RegisterController">
+
+    <!-- Logo -->
+    <ImageView fitWidth="140" fitHeight="140" preserveRatio="true">
+        <Image url="@/images/capstone logo 1.jpg"/>
+    </ImageView>
 
     <Label text="Create Account" styleClass="title"/>
 
-    <TextField fx:id="usernameField" promptText="Username"/>
-    <TextField fx:id="emailField" promptText="Email"/>
-    <PasswordField fx:id="passwordField" promptText="Password"/>
-
-    <ChoiceBox fx:id="roleChoice"/>
+    <TextField fx:id="usernameField" promptText="Username" maxWidth="350"/>
+    <TextField fx:id="emailField" promptText="Email" maxWidth="350"/>
+    <PasswordField fx:id="passwordField" promptText="Password" maxWidth="350"/>
+    <ChoiceBox fx:id="roleChoice" maxWidth="350"/>
 
     <Button text="Register" onAction="#handleRegister" styleClass="primary-button">
         <tooltip><Tooltip text="Create your account" /></tooltip>
     </Button>
 
-    <Button text="Back to Login" onAction="#goToLogin"/>
+    <Button text="Back to Login" onAction="#goToLogin" styleClass="secondary-button"/>
 
     <Label fx:id="messageLabel" styleClass="error"/>
-
 </VBox>

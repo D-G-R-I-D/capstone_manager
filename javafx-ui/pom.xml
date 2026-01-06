@@ -40,6 +40,11 @@
             <version>2.0.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>9.5.0</version>  <!-- Latest as of 2026 -->
+        </dependency>
     </dependencies>
 
     <build>

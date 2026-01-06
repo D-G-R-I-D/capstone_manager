@@ -14,7 +14,6 @@ public class MainApp extends Application {
         // Set AtlantaFX theme FIRST (before any scene)
         Application.setUserAgentStylesheet(new PrimerLight().getUserAgentStylesheet());
 
-        // Load FXML
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
         Scene scene = new Scene(loader.load());
 

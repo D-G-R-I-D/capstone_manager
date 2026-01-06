@@ -8,13 +8,17 @@ public class AuthService {
 
     public User login(String usernameOrEmail, String password) {
         User user = userDAO.findByUsernameOrEmail(usernameOrEmail);
-
-        if (user == null)
+        if (user == null) {
+            System.out.println("User not found for: " + usernameOrEmail);  // Log to console
             throw new RuntimeException("User not found");
-
-        if (!PasswordUtil.verify(password, user.getPasswordHash()))
+        }
+        String storedHash = user.getPasswordHash();
+        System.out.println("Stored hash: " + storedHash);  // Log hash
+        System.out.println("Input password: " + password);  // Log input (temporary - remove for security)
+        if (!PasswordUtil.verify(password, storedHash)) {
+            System.out.println("Password verification failed");
             throw new RuntimeException("Invalid password");
-
+        }
         return user;
     }
 }
