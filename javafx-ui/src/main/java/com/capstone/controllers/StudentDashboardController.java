@@ -43,7 +43,7 @@ public class StudentDashboardController {
             throw new IllegalStateException("No session user");
         }
 
-        welcomeLabel.setText("Welcome, " + student.getUsername());
+        welcomeLabel.setText("Welcome, " + student.getUsername() + " STUDENT");
 
         // Set up table columns
         titleCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTitle()));

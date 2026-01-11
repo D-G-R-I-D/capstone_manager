@@ -40,7 +40,7 @@ public class SeniorSupervisorDashboardController {
         if (senior == null) {
             throw new IllegalStateException("No session user");
         }
-        welcomeLabel.setText("Senior Supervisor: " + senior.getUsername());
+        welcomeLabel.setText("Senior Supervisor: " + senior.getUsername() + " SENIOR SUPERVISOR");
 
         titleCol.setCellValueFactory(c ->
                 new SimpleStringProperty(c.getValue().getTitle())
