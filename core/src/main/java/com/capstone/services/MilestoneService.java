@@ -15,7 +15,7 @@ public class MilestoneService {
                 projectId,
                 title,
                 deadline,
-                MilestoneStatus.NOT_STARTED
+                MilestoneStatus.PENDING
         );
         dao.save(m);
     }

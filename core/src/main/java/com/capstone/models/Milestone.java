@@ -1,6 +1,8 @@
 package com.capstone.models;
 import java.time.LocalDate;
-import com.capstone.models.enums.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.capstone.models.enums.MilestoneStatus;
 
 public class Milestone {
@@ -9,6 +11,8 @@ public class Milestone {
     private String title;
     private LocalDate deadline;
     private MilestoneStatus status; // NOT_STARTED, IN_PROGRESS, COMPLETED
+    private String description;
+    private List<Milestone> milestones = new ArrayList<>();
 
     public Milestone() {}
 
@@ -37,6 +41,7 @@ public class Milestone {
 
     public MilestoneStatus getStatus() { return status; }
     public void setStatus(MilestoneStatus status) { this.status = status; }
+
 }
 
 

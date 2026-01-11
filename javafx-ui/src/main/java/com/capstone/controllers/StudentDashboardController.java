@@ -2,6 +2,8 @@ package com.capstone.controllers;
 
 import com.capstone.models.Project;
 import com.capstone.models.User;
+import com.capstone.models.enums.MilestoneStatus;
+import com.capstone.models.enums.ProjectStatus;
 import com.capstone.models.enums.Role;
 import com.capstone.services.ProjectService;
 import com.capstone.utils.Guard;
@@ -9,6 +11,7 @@ import com.capstone.utils.Session;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -26,6 +29,9 @@ public class StudentDashboardController {
     @FXML private TableColumn<Project, String> statusCol;
     @FXML private TableColumn<Project, String> progressCol;  // New
     @FXML private TableColumn<Project, String> actionsCol;    // New
+    @FXML private Label activeProjectsLabel; // New
+    @FXML private Label pendingMilestonesLabel; // New
+    @FXML private Label completionRateLabel; // New
 
     private final ProjectService projectService = new ProjectService();
 
@@ -33,24 +39,51 @@ public class StudentDashboardController {
     public void initialize() {
         Guard.require(Role.STUDENT);
         User student = Session.getUser();
-        if (student == null) throw new IllegalStateException("No session user");
+        if (student == null) {
+            throw new IllegalStateException("No session user");
+        }
 
-        welcomeLabel.setText("Welcome, " + student.getUsername() + " (Student)");
+        welcomeLabel.setText("Welcome, " + student.getUsername());
 
-        // Real columns (bound to Project properties)
-        titleCol.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getTitle()));
-        statusCol.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getStatus().name()));
+        // Set up table columns
+        titleCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTitle()));
+        statusCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStatus().name()));
+        progressCol.setCellValueFactory(cellData -> new SimpleStringProperty("In Progress")); // placeholder
+        actionsCol.setCellValueFactory(cellData -> new SimpleStringProperty("View Details")); // placeholder
 
-        // Placeholder columns (constant text)
-        progressCol.setCellValueFactory(cellData -> new SimpleStringProperty("In Progress"));
-        actionsCol.setCellValueFactory(cellData -> new SimpleStringProperty("View Details"));
-
-        // Load data
-        projectTable.setItems(FXCollections.observableArrayList(
+        // Load student's projects
+        ObservableList<Project> projects = FXCollections.observableArrayList(
                 projectService.getProjectsForStudent(student.getId())
-        ));
+        );
+        projectTable.setItems(projects);
+
+        // Calculate real stats
+        int activeCount = (int) projects.stream()
+                .filter(p -> p.getStatus() == ProjectStatus.IN_PROGRESS || p.getStatus() == ProjectStatus.PENDING)
+                .count();
+        activeProjectsLabel.setText(String.valueOf(activeCount));
+
+        // Count pending/in-progress milestones across all projects
+        long pendingMilestones = projects.stream()
+                .flatMap(p -> p.getMilestones().stream())
+                .filter(m -> m.getStatus() == MilestoneStatus.PENDING || m.getStatus() == MilestoneStatus.IN_PROGRESS)
+                .count();
+        pendingMilestonesLabel.setText(String.valueOf(pendingMilestones));
+
+        // Completion rate (average % of completed milestones across all projects)
+        if (projects.isEmpty()) {
+            completionRateLabel.setText("0%");
+        } else {
+            double totalMilestones = projects.stream()
+                    .mapToLong(p -> p.getMilestones().size())
+                    .sum();
+            double completedMilestones = projects.stream()
+                    .flatMap(p -> p.getMilestones().stream())
+                    .filter(m -> m.getStatus() == MilestoneStatus.COMPLETED)
+                    .count();
+            double completion = totalMilestones == 0 ? 0 : (completedMilestones / totalMilestones) * 100;
+            completionRateLabel.setText(String.format("%.0f%%", completion));
+        }
     }
 
     @FXML
@@ -72,6 +105,16 @@ public class StudentDashboardController {
     }
 
     @FXML
+    private void viewGrades() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("My Grades");
+        alert.setHeaderText("Grades & Feedback");
+        alert.setContentText("Your grades and supervisor feedback will appear here once available.");
+        alert.showAndWait();
+        // Later: open a grades table or scorecard view
+    }
+
+    @FXML
     private void handleLogout() throws Exception {
         Session.logout();
         Stage stage = (Stage) welcomeLabel.getScene().getWindow();
@@ -83,5 +126,21 @@ public class StudentDashboardController {
     // Add this method inside the class
     public Callback<TableColumn.CellDataFeatures<Project, String>, ObservableValue<String>> constantStringFactory(String value) {
         return cellData -> new SimpleStringProperty(value);
+    }
+
+    private void showProjectDetails(Project project) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/project_details.fxml.fxml"));
+            Stage detailsStage = new Stage();
+            detailsStage.setTitle("Project Details: " + project.getTitle());
+            detailsStage.setScene(new Scene(loader.load()));
+            ProjectDetailsController controller = loader.getController();
+            controller.setProject(project);
+            detailsStage.show();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Failed to load project details");
+            alert.show();
+            e.printStackTrace();
+        }
     }
 }

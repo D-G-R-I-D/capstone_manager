@@ -2,58 +2,63 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="20" alignment="TOP_CENTER" styleClass="dashboard-container"
+<?import javafx.scene.image.Image?>
+<VBox spacing="25" alignment="TOP_CENTER" styleClass="student-dashboard"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.capstone.controllers.StudentDashboardController">
 
-    <!-- Header Row -->
-    <HBox alignment="CENTER_LEFT" spacing="20" styleClass="header-row">
+    <!-- Header: Logo + Welcome + Logout -->
+    <HBox alignment="CENTER_LEFT" spacing="20" styleClass="header">
         <padding>
-            <Insets top="20" right="40" bottom="20" left="40"/>
+            <Insets top="15" right="40" bottom="15" left="40"/>
         </padding>
-        <Label fx:id="welcomeLabel" styleClass="title"/>
+        <ImageView fitWidth="55" fitHeight="55" preserveRatio="true" styleClass="logo-image">
+            <Image url="@/images/capstone logo 1.jpg"/>
+        </ImageView>
+        <Label fx:id="welcomeLabel" styleClass="welcome-title"/>
         <Region HBox.hgrow="ALWAYS"/>
-        <HBox spacing="15">
-            <Button text="Submit Proposal" onAction="#submitProposal" styleClass="primary-button"/>
-            <Button text="View Milestones" onAction="#viewMilestones" styleClass="secondary-button"/>
-            <Button text="Logout" onAction="#handleLogout" styleClass="secondary-button"/>
-        </HBox>
+        <Button text="Logout" onAction="#handleLogout" styleClass="logout-btn"/>
+    </HBox>
+
+    <!-- Quick Action Buttons -->
+    <HBox spacing="20" alignment="CENTER" styleClass="actions-row">
+        <Button text="Submit New Proposal" onAction="#submitProposal" styleClass="action-btn primary"/>
+        <Button text="View My Milestones" onAction="#viewMilestones" styleClass="action-btn secondary"/>
+        <Button text="My Grades" onAction="#viewGrades" styleClass="action-btn info"/>
     </HBox>
 
     <!-- Projects Section -->
-    <VBox spacing="12" styleClass="section">
+    <VBox spacing="15" styleClass="card">
         <padding>
-            <Insets top="0" right="40" bottom="20" left="40"/>
+            <Insets top="20" right="40" bottom="20" left="40"/>
         </padding>
-        <Label text="My Projects" styleClass="subtitle"/>
-        <TableView fx:id="projectTable" prefHeight="450">
+        <Label text="My Capstone Projects" styleClass="card-title"/>
+        <TableView fx:id="projectTable" prefHeight="400">
             <columns>
-                <TableColumn fx:id="titleCol" text="Project Title" prefWidth="450"/>
+                <TableColumn fx:id="titleCol" text="Project Title" prefWidth="400"/>
                 <TableColumn fx:id="statusCol" text="Status" prefWidth="150"/>
                 <TableColumn fx:id="progressCol" text="Progress" prefWidth="120"/>
-                <TableColumn fx:id="actionsCol" text="Actions" prefWidth="120"/>
+                <TableColumn fx:id="actionsCol" text="Actions" prefWidth="150"/>
             </columns>
         </TableView>
     </VBox>
 
-    <!-- Stats Cards -->
-    <HBox spacing="30" alignment="CENTER" styleClass="stats-row">
-        <padding>
-            <Insets top="0" right="40" bottom="40" left="40"/>
-        </padding>
+    <!-- Stats Cards (real data from table) -->
+    <HBox spacing="25" alignment="CENTER" styleClass="stats-row">
         <VBox alignment="CENTER" styleClass="stat-card">
-            <Label text="0" styleClass="stat-number"/>
+            <Label fx:id="activeProjectsLabel" text="0" styleClass="stat-number"/>
             <Label text="Active Projects" styleClass="stat-label"/>
         </VBox>
         <VBox alignment="CENTER" styleClass="stat-card">
-            <Label text="0" styleClass="stat-number"/>
+            <Label fx:id="pendingMilestonesLabel" text="0" styleClass="stat-number"/>
             <Label text="Pending Milestones" styleClass="stat-label"/>
         </VBox>
         <VBox alignment="CENTER" styleClass="stat-card">
-            <Label text="0%" styleClass="stat-number"/>
-            <Label text="Overall Completion" styleClass="stat-label"/>
+            <Label fx:id="completionRateLabel" text="0%" styleClass="stat-number"/>
+            <Label text="Completion Rate" styleClass="stat-label"/>
         </VBox>
     </HBox>
 </VBox>

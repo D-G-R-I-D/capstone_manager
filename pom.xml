@@ -17,7 +17,6 @@
         <module>core</module>
         <module>swing-ui</module>
         <module>javafx-ui</module>
-        <module>desktops</module>
     </modules>
 
     <!-- Global project settings -->

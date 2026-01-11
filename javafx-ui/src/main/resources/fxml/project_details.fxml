@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="15" alignment="CENTER" styleClass="details-container"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.capstone.controllers.ProjectDetailsController">
+
+    <Label fx:id="titleLabel" styleClass="title"/>
+    <Label fx:id="statusLabel" styleClass="subtitle"/>
+    <TextArea fx:id="descriptionArea" wrapText="true" editable="false" prefHeight="200"/>
+    <Label text="Milestones" styleClass="subtitle"/>
+    <TableView fx:id="milestonesTable">
+        <columns>
+            <TableColumn text="Name" prefWidth="300"/>
+            <TableColumn text="Due Date" prefWidth="150"/>
+            <TableColumn text="Status" prefWidth="150"/>
+        </columns>
+    </TableView>
+</VBox>

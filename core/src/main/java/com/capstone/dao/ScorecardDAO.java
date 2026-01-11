@@ -26,12 +26,13 @@ public class ScorecardDAO implements ScoreCardDAOinterface {
             ps.setString(1, s.getId());
             ps.setString(2, s.getProjectId());
             ps.setString(3, s.getGradedBy());
-            ps.setString(4, String.valueOf(s.getRole())); //.name());*****************
+            ps.setString(4, s.getRole().name()); //(String.valueOf(s.getRole()));*****************
             ps.setInt(5, s.getTechnicalDepth());
             ps.setInt(6, s.getProblemSolving());
             ps.setInt(7, s.getPresentation());
             ps.setInt(8, s.getDesign());
             ps.setInt(9, s.getTotalScore());
+            ps.setTimestamp(10, Timestamp.valueOf(s.getGradedAt()));  // ← Add this
 
             return ps.executeUpdate() == 1;
 

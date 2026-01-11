@@ -2,13 +2,14 @@ package com.capstone.dao;
 import com.capstone.models.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserDAOinterface {
-    boolean createUser(User user);
-    User findById(String id);
-    User findByUsername(String username);
+    void createUser(User user);
+    Optional<User> findById(String id);
+    Optional<User> findByUsername(String username);
     List<User> getAllUsers();
     void update(User user);
     boolean deleteUser(String id);
-    User findByUsernameOrEmail(String usernameOrEmail);
+    Optional<User> findByUsernameOrEmail(String usernameOrEmail);
 }

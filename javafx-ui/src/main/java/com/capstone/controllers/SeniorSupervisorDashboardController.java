@@ -18,6 +18,7 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public class SeniorSupervisorDashboardController {
 
@@ -45,12 +46,18 @@ public class SeniorSupervisorDashboardController {
                 new SimpleStringProperty(c.getValue().getTitle())
         );
 
-        supervisorCol.setCellValueFactory(c -> {
-            String supervisorId = c.getValue().getSupervisorId();
-            User supervisor = userService.findById(supervisorId);
-            return new SimpleStringProperty(
-                    supervisor != null ? supervisor.getUsername() : "Unassigned"
-            );
+        supervisorCol.setCellValueFactory(cellData -> {
+            String supervisorId = cellData.getValue().getSupervisorId();
+            if (supervisorId == null || supervisorId.isEmpty()) {
+                return new SimpleStringProperty("Unassigned");
+            }
+
+            Optional<User> supervisorOpt = userService.findById(supervisorId);
+            String supervisorName = supervisorOpt
+                    .map(User::getUsername)  // Clean way: if present, get username
+                    .orElse("Unassigned");   // if not present or empty
+
+            return new SimpleStringProperty(supervisorName);
         });
 
         statusCol.setCellValueFactory(c ->

@@ -15,18 +15,18 @@ public class ProposalService {
     private final ProjectDAO projectDAO = new ProjectDAO();
 
     // Student submits proposal
-    public Proposal submit(String summary, String studentId) {
+    public void submitProposal(Proposal proposal) {
+        // Validate
+        if (proposal.getTitle() == null || proposal.getTitle().trim().isEmpty()) {
+            throw new IllegalArgumentException("Proposal title is required");
+        }
 
-        Proposal p = new Proposal(
-                UUID.randomUUID().toString(),
-                studentId,              // submittedBy
-                summary,
-                ProposalStatus.PENDING,
-                LocalDateTime.now()
-        );
+        // Set defaults
+        proposal.setStatus(ProposalStatus.PENDING);
+        proposal.setSubmittedAt(LocalDateTime.now());
 
-        proposalDAO.save(p);
-        return p;
+        // Save to DB
+        proposalDAO.create(proposal);
     }
 
     // Supervisor approves proposal → creates project

@@ -1,7 +1,7 @@
 package com.capstone.dao;
 
+import com.capstone.ExceptionClass.DatabaseException;
 import com.capstone.models.User;
-import com.capstone.models.enums.*;
 import com.capstone.models.enums.Role;
 import com.capstone.utils.DBConnection;
 import java.sql.*;
@@ -14,61 +14,72 @@ public class UserDAO implements UserDAOinterface {
     private static final Logger LOGGER = Logger.getLogger(UserDAO.class.getName());
 
     @Override
-    public boolean createUser(User user) {
+    public void createUser(User user) {
         String sql = """
         INSERT INTO users (id, username, email, password_hash, role)
         VALUES (?,?,?,?,?)
-    """;
+        """;
 
         try (Connection c = DBConnection.getConnection();
              PreparedStatement ps = c.prepareStatement(sql)) {
 
-            ps.setString(1, user.getId());
+            ps.setString(1, user.getId());            // e.g., UUID.randomUUID().toString()
             ps.setString(2, user.getUsername());
             ps.setString(3, user.getEmail());
-            ps.setString(4, user.getPasswordHash()); // HASH ONLY
+            ps.setString(4, user.getPasswordHash().trim()); // HASH ONLY
             ps.setString(5, user.getRole().name());
 
-            return ps.executeUpdate() == 1;
-        } catch (Exception e) {
+            int rowsAffected = ps.executeUpdate();
+//            ps.executeUpdate();
+            if (rowsAffected == 0) {
+                LOGGER.warning("User creation failed: no rows inserted");
+                throw new DatabaseException("Failed to create user: no rows inserted", null);
+            }
+            LOGGER.info("User created successfully with ID: " + user.getId());
+
+        } catch (SQLException e) {
             LOGGER.severe("Failed to create user: " + e.getMessage());
-            return false;
+            throw new DatabaseException("Failed to create user : email already exists ", e);
         }
     }
 
     @Override
-    public User findByUsername(String username) {
+    public Optional<User> findByUsername(String username) {
         String sql = "SELECT * FROM users WHERE username=?";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, username);
-            ResultSet rs = stmt.executeQuery();
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return Optional.of(mapUser(rs));
+                }
+            }
 
-            if (rs.next()) return mapUser(rs);
-
-        } catch (Exception e) {
+        } catch (SQLException e) {
             LOGGER.severe("Failed to find user by username: " + e.getMessage());}
 
-        return null;
+        return Optional.empty();
     }
 
     @Override
-    public User findById(String id){
+    public Optional<User> findById(String id){
         String sql = "SELECT * FROM users WHERE id=?";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, id);
-            ResultSet rs = stmt.executeQuery();
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return Optional.of(mapUser(rs));
+                }
+            }
 
-            if (rs.next()) return mapUser(rs);
+        } catch (SQLException e) {LOGGER.severe("Failed to find user by Id: " + e.getMessage());}
 
-        } catch (Exception e) {LOGGER.severe("Failed to find user by Id: " + e.getMessage());}
-
-        return null;
+        return Optional.empty();
     }
 
 
@@ -83,7 +94,7 @@ public class UserDAO implements UserDAOinterface {
 
             while (rs.next()) list.add(mapUser(rs));
 
-        } catch (Exception e) { LOGGER.severe("Failed to get all users: " + e.getMessage());}
+        } catch (SQLException e) { LOGGER.severe("Failed to get all users: " + e.getMessage());}
 
         return list;
     }
@@ -105,13 +116,18 @@ public class UserDAO implements UserDAOinterface {
             ps.setString(4, user.getRole().name());
             ps.setString(5, user.getId());
 
-            ps.executeUpdate();
+            int rows = ps.executeUpdate();
+            if (rows == 0) {
+                throw new DatabaseException("No user updated — user with ID. " + user.getId() + " may not exist", null);
+            }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             LOGGER.severe("Failed to update user: " + e.getMessage());
+            throw new DatabaseException("Failed to update");
         }
     }
 
+    @Override
     public boolean deleteUser(String id) {
         String sql = "DELETE FROM users WHERE id=?";
 
@@ -121,36 +137,46 @@ public class UserDAO implements UserDAOinterface {
             stmt.setString(1, id);
             return stmt.executeUpdate() == 1;
 
-        } catch (Exception e) { LOGGER.severe("Failed to delete user: " + e.getMessage());}
+        } catch (SQLException e) { LOGGER.severe("Failed to delete user: " + e.getMessage());}
 
         return false;
     }
 
-    private User mapUser(ResultSet rs) throws Exception {
-        return new User(
-                rs.getString("id"),
-                rs.getString("username"),
-                rs.getString("email"),
-                rs.getString("password_hash"),
-                Role.valueOf(rs.getString("role"))
-        );
-    }
+        private User mapUser(ResultSet rs) throws SQLException {
+            return (new User(
+                    rs.getString("id"),
+                    rs.getString("username"),
+                    rs.getString("email"),
+                    rs.getString("password_hash"),
+                    Role.valueOf(rs.getString("role").toUpperCase())
+            ));
+        }
 
-    public User findByUsernameOrEmail(String usernameOrEmail) {
-        String sql = "SELECT * FROM users WHERE username=? OR email =?";
+    @Override
+    public Optional<User> findByUsernameOrEmail(String identifier) {
+        String sql = """
+            SELECT id, username, email, password_hash, role 
+            FROM users 
+            WHERE LOWER(username) = LOWER(?) 
+               OR LOWER(email) = LOWER(?)
+            """;
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, usernameOrEmail);
-            stmt.setString(2, usernameOrEmail);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) return mapUser(rs);
-
-        } catch (Exception e) { LOGGER.severe("Failed to find user by username or by email: " + e.getMessage());}
-
-        return null;
+            stmt.setString(1, identifier);
+            stmt.setString(2, identifier);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return Optional.of(mapUser(rs));  // mapUser returns User
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.severe("Database error while searching for user: " + e.getMessage());
+            throw new DatabaseException("Failed to retrieve user by username or email", e);
+            // Consider whether to rethrow as a custom exception or return Optional<User>
+        }
+        return Optional.empty();
     }
 }
 

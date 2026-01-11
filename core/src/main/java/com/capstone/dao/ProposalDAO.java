@@ -30,23 +30,48 @@ public class ProposalDAO implements ProposalDAOinterface{
         return false;
     }
 
-    public void save(Proposal p) {
-        String sql = """
-        INSERT INTO proposals
-        (id, summary, submitted_by, status, submitted_at)
-        VALUES (?,?,?,?,?)
-    """;
-        try (Connection c = DBConnection.getConnection();
-             PreparedStatement ps = c.prepareStatement(sql)) {
+//    public void save(Proposal p) {
+//        String sql = """
+//        INSERT INTO proposals
+//        (id, summary, submitted_by, status, submitted_at)
+//        VALUES (?,?,?,?,?)
+//    """;
+//        try (Connection c = DBConnection.getConnection();
+//             PreparedStatement ps = c.prepareStatement(sql)) {
+//
+//            ps.setString(1, p.getId());
+//            ps.setString(2, p.getSummary());
+//            ps.setString(3, p.getSubmittedBy());
+//            ps.setString(4, p.getStatus().name());
+//            ps.setTimestamp(5, Timestamp.valueOf(p.getSubmittedAt()));
+//            ps.executeUpdate();
+//        } catch (Exception e) {
+//            LOGGER.severe("Failed to save proposal: " + e.getMessage());}
+//    }
 
-            ps.setString(1, p.getId());
-            ps.setString(2, p.getSummary());
-            ps.setString(3, p.getSubmittedBy());
-            ps.setString(4, p.getStatus().name());
-            ps.setTimestamp(5, Timestamp.valueOf(p.getSubmittedAt()));
-            ps.executeUpdate();
+    @Override
+    public boolean create(Proposal proposal) {
+        String sql = """
+        INSERT INTO proposals (id, title, description, student_id, file_path, status, submitted_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        """;
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, proposal.getId()); // or UUID
+            ps.setString(2, proposal.getTitle());
+            ps.setString(3, proposal.getDescription());
+            ps.setString(4, proposal.getStudentId());
+            ps.setString(5, proposal.getFilePath());
+            ps.setString(6, proposal.getStatus().name());
+            ps.setTimestamp(7, Timestamp.valueOf(proposal.getSubmittedAt()));
+
+            return ps.executeUpdate() == 1;
         } catch (Exception e) {
-            LOGGER.severe("Failed to save proposal: " + e.getMessage());}
+            LOGGER.severe("Failed to create proposal: " + e.getMessage());
+            return false;
+        }
     }
 
 

@@ -4,7 +4,7 @@ USE capstone_manager;
 -- USERS TABLE
 CREATE TABLE users (
     id VARCHAR(50) PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
+    username VARCHAR(50) NOT NULL,
     email VARCHAR(100),
     password_hash VARCHAR(255) NOT NULL,
     role ENUM('STUDENT', 'SUPERVISOR', 'SENIOR_SUPERVISOR', 'ADMIN') NOT NULL,

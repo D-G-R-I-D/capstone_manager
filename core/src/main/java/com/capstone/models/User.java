@@ -1,5 +1,4 @@
 package com.capstone.models;
-import com.capstone.models.enums.*;
 import com.capstone.models.enums.Role;
 
 import java.time.LocalDateTime;

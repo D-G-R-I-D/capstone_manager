@@ -1,4 +1,5 @@
 package com.capstone.services;
+import com.capstone.ExceptionClass.UserNotFoundException;
 import com.capstone.dao.*;
 import com.capstone.dao.ProjectDAO;
 import com.capstone.dao.ProposalDAO;
@@ -12,7 +13,9 @@ import com.capstone.models.enums.ProjectStatus;
 import com.capstone.models.enums.ProposalStatus;
 import com.capstone.models.enums.Role;
 
+import javax.naming.AuthenticationException;
 import java.util.List;
+import java.util.Optional;
 
 public class AdminService {
     private final UserDAO userDAO = new UserDAO();
@@ -25,9 +28,12 @@ public class AdminService {
     }
 
     public void changeUserRole(String userId, Role role) {
-        User u = userDAO.findById(userId);
-        u.setRole(role);
-        userDAO.update(u);
+        Optional<User> userOpt = userDAO.findById(userId);
+
+        User user = userOpt.orElseThrow(() -> new UserNotFoundException("User not found with Id" + userId));
+
+        user.setRole(role);
+        userDAO.update(user);
     }
 
     public List<Project> getAllProjects() {

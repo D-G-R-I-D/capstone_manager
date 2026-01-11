@@ -1,130 +1,80 @@
-/* Overall background - very light gray/blue */
-.root {
-    -fx-background-color: #e8ecef;
-    -fx-padding: 60;
-}
-
-/* No container styling - keep everything minimal */
-.auth-container {
-    -fx-background-color: transparent;
+.student-dashboard {
+    -fx-background-color: #f9fafb;
     -fx-padding: 0;
 }
 
-/* Logo - subtle rounded corners + very light cream background + soft shadow */
-.logo-image {
-    -fx-background-color: #fdfbf7;  /* Very light cream/beige */
-    -fx-background-radius: 15;
-    -fx-border-radius: 15;
-    -fx-padding: 20;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 4);
-}
-
-/* Title - smaller, lighter, closer to logo */
-.title {
-    -fx-font-size: 20px;
-    -fx-font-weight: normal;
-    -fx-text-fill: #4a5568;
-    -fx-padding: 20 0 40 0;
-}
-
-/* Fields - subtle rounded, light border */
-.text-field, .password-field, .choice-box {
-    -fx-background-color: white;
-    -fx-border-color: #cbd5e0;
-    -fx-border-radius: 12;
-    -fx-background-radius: 12;
-    -fx-padding: 14;
-    -fx-font-size: 15px;
-    -fx-pref-width: 320;
-    -fx-prompt-text-fill: #a0aec0;
-}
-
-/* Primary button - bright blue, rounded */
-.primary-button {
-    -fx-background-color: #4299e1;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-background-radius: 10;
-    -fx-padding: 12 40;
-    -fx-font-size: 15px;
-}
-
-.primary-button:hover {
-    -fx-background-color: #3182ce;
-}
-
-/* Secondary button - gray */
-.secondary-button {
-    -fx-background-color: #a0aec0;
-    -fx-text-fill: white;
-    -fx-background-radius: 10;
-    -fx-padding: 10 35;
-    -fx-font-size: 14px;
-}
-
-.secondary-button:hover {
-    -fx-background-color: #90a0b8;
-}
-
-/* Error label */
-.error-label {
-    -fx-text-fill: #e53e3e;
-    -fx-font-size: 14px;
-    -fx-padding: 15 0 0 0;
-}
-
-/* Keep dashboard styles (don't touch these) */
-.dashboard-container {
-    -fx-background-color: #f8fafc;
-    -fx-padding: 0;
-}
-
-.header-row {
-    -fx-background-color: white;
-    -fx-border-color: #e2e8f0;
+.header {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e5e7eb;
     -fx-border-width: 0 0 1 0;
-    -fx-padding: 20 0;
 }
 
-.section {
+.welcome-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #111827;
+}
+
+.logout-btn {
+    -fx-background-color: #ef4444;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-padding: 8 16;
+}
+
+.actions-row {
+    -fx-padding: 20 40;
+}
+
+.action-btn {
+    -fx-background-radius: 10;
+    -fx-padding: 12 25;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+.primary { -fx-background-color: #3b82f6; -fx-text-fill: white; }
+.primary:hover { -fx-background-color: #2563eb; }
+
+.secondary { -fx-background-color: #6b7280; -fx-text-fill: white; }
+.secondary:hover { -fx-background-color: #4b5563; }
+
+.info { -fx-background-color: #8b5cf6; -fx-text-fill: white; }
+.info:hover { -fx-background-color: #7c3aed; }
+
+.card {
     -fx-background-color: white;
-    -fx-background-radius: 12;
-    -fx-border-radius: 12;
-    -fx-border-color: #e2e8f0;
-    -fx-border-width: 1;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 4);
+    -fx-background-radius: 16;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 15, 0, 0, 5);
     -fx-padding: 20;
+}
+
+.card-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #1f2937;
 }
 
 .stats-row {
-    -fx-padding: 20 0;
+    -fx-padding: 20 40;
 }
 
 .stat-card {
-    -fx-background-color: #ffffff;
+    -fx-background-color: white;
     -fx-background-radius: 12;
     -fx-padding: 25;
     -fx-alignment: center;
     -fx-min-width: 180;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 4);
-    -fx-border-color: #e2e8f0;
-    -fx-border-width: 1;
-    -fx-border-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 3);
 }
 
 .stat-number {
-    -fx-font-size: 32px;
+    -fx-font-size: 36px;
     -fx-font-weight: bold;
-    -fx-text-fill: #1e40af;
+    -fx-text-fill: #3b82f6;
 }
 
 .stat-label {
     -fx-font-size: 14px;
-    -fx-text-fill: #64748b;
-}
-
-.subtitle {
-    -fx-font-size: 20px;
-    -fx-font-weight: 600;
-    -fx-text-fill: #1e293b;
+    -fx-text-fill: #6b7280;
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.layout.HBox?>
+<VBox spacing="20" alignment="CENTER" styleClass="form-container"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.capstone.controllers.ProposalFormController">
+
+    <Label text="Submit Proposal" styleClass="title"/>
+
+    <TextField fx:id="titleField" promptText="Proposal Title"/>
+
+    <TextArea fx:id="descriptionArea" promptText="Description" wrapText="true" prefHeight="200"/>
+
+    <HBox spacing="10">
+        <Button text="Choose File" onAction="#chooseFile" styleClass="primary-button"/>
+        <Label fx:id="fileLabel" text="No file selected"/>
+    </HBox>
+
+    <Button text="Submit" onAction="#submitProposal" styleClass="primary-button"/>
+
+    <Label fx:id="messageLabel" styleClass="error-label"/>
+</VBox>

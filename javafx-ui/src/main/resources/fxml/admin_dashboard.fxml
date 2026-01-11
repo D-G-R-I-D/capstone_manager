@@ -3,15 +3,48 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.capstone.controllers.AdminDashboardController">
+<?import javafx.geometry.Insets?>
+<VBox spacing="20" alignment="TOP_CENTER" styleClass="dashboard-container"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.capstone.controllers.AdminDashboardController">
 
-    <top>
-        <Label text="Admin Dashboard" styleClass="title"/>
-    </top>
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="20" styleClass="header-row">
+        <padding>
+            <Insets top="20" right="40" bottom="20" left="40"/>
+        </padding>
+        <Label fx:id="welcomeLabel" styleClass="title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Logout" onAction="#handleLogout" styleClass="secondary-button"/>
+    </HBox>
 
-    <center>
-        <Label text="Admin content goes here"/>
-    </center>
+    <!-- Users Management -->
+    <VBox spacing="12" styleClass="section">
+        <padding>
+            <Insets top="0" right="40" bottom="20" left="40"/>
+        </padding>
+        <Label text="Manage Users" styleClass="subtitle"/>
+        <TableView fx:id="userTable">
+            <columns>
+                <TableColumn text="Username" prefWidth="200"/>
+                <TableColumn text="Role" prefWidth="150"/>
+                <TableColumn text="Actions" prefWidth="150"/>
+            </columns>
+        </TableView>
+    </VBox>
 
-</BorderPane>
+    <!-- Projects Management -->
+    <VBox spacing="12" styleClass="section">
+        <padding>
+            <Insets top="0" right="40" bottom="20" left="40"/>
+        </padding>
+        <Label text="Manage Projects" styleClass="subtitle"/>
+        <TableView fx:id="projectTable">
+            <columns>
+                <TableColumn text="Title" prefWidth="300"/>
+                <TableColumn text="Status" prefWidth="150"/>
+                <TableColumn text="Actions" prefWidth="150"/>
+            </columns>
+        </TableView>
+    </VBox>
+</VBox>

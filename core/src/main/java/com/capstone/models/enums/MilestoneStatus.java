@@ -1,8 +1,9 @@
 package com.capstone.models.enums;
 
 public enum MilestoneStatus {
-    NOT_STARTED,
+    PENDING, // Assigned/approved, waiting for student to start
     IN_PROGRESS,
     COMPLETED
+//    NOT_STARTED,
 }
 

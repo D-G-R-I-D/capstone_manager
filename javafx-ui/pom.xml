@@ -45,6 +45,12 @@
             <artifactId>mysql-connector-j</artifactId>
             <version>9.5.0</version>  <!-- Latest as of 2026 -->
         </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>26.0.2-1</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>

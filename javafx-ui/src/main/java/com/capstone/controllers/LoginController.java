@@ -23,7 +23,7 @@ public class LoginController {
     @FXML
     public void handleLogin() {
         try {
-            User user = authService.login(usernameField.getText(), passwordField.getText());
+            User user = authService.login(usernameField.getText().trim(), passwordField.getText().trim());
             Session.setUser(user);
 
             String fxmlPath = switch (user.getRole()) {
