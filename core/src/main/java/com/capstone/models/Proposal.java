@@ -18,6 +18,8 @@ import com.capstone.models.enums.ProposalStatus;
         private String description;
         private String studentId;
         private String filePath;
+        private byte[] fileData;  // Store file bytes
+
 
         public Proposal(String id, String submittedBy, String summary,
                         ProposalStatus status, LocalDateTime submittedAt) {
@@ -80,121 +82,8 @@ import com.capstone.models.enums.ProposalStatus;
     public void setProjectId(String projectId) { this.projectId = projectId; }
 
     public void setReviewedBy(String reviewedBy) {  }
-}
 
+    public byte[] getFileData() { return fileData; }
+    public void setFileData(byte[] fileData) { this.fileData = fileData; }
 
-//public class Proposal {
-//
-//    public enum Status { PENDING, SUBMITTED, APPROVED, REJECTED }
-//    private final String id;
-//    private final String projectId;
-//    private final String summary;
-//    private final String submittedBy;
-//    private Status status = Status.PENDING;
-//    private final LocalDateTime submittedAt;
-//    private LocalDateTime reviewedAt;
-//    private String reviewedBy;
-//
-//    private String decisionNote; // optional text the supervisor might add
-//    private String rejectionNote;
-//
-//    public Proposal(String id, String projectId, String summary, String submittedBy) {
-//        this.id = id;
-//        this.projectId = projectId;
-//        this.summary = summary;
-//        this.submittedBy = submittedBy;
-//        this.reviewedAt = null;
-//        this.reviewedBy = null;
-//        this.submittedAt = LocalDateTime.now();
-//    }
-//
-//    public String getId(){ return id; }
-//
-//    public String getProjectId(){ return projectId; }
-//
-//    public String getSummary(){ return summary; }
-//
-//    public String getSubmittedBy(){ return submittedBy; }
-//
-//    public Status getStatus(){ return status; }
-//
-//    public void setStatus(Status status){ this.status = status; }
-//
-//    public LocalDateTime getSubmittedAt() {
-//        return submittedAt;
-//    }
-//
-//    public LocalDateTime getReviewedAt() {
-//        return reviewedAt;
-//    }
-//
-//    public String getReviewerId() {
-//        return reviewedBy;
-//    }
-//
-//    public void setReviewedBy(String reviewedBy) {
-//        this.reviewedBy = this.reviewedBy;
-//    }
-//
-//
-//    public String getRejectionNote() { return rejectionNote; }
-//
-//    public void approve(String supervisorId, String note) {
-//        this.status = Status.APPROVED;
-//        this.decisionNote = note;
-//        this.reviewedBy = supervisorId;
-//        this.reviewedAt = LocalDateTime.now();
-//    }
-//
-//    public void approve(String supervisorId) {
-//        approve(supervisorId, null);
-//    }
-//
-//    public void reject(String supervisorId, String note) {
-//        this.status = Status.REJECTED;
-//        this.rejectionNote = note;
-//        this.reviewedBy = supervisorId;
-//        this.reviewedAt = LocalDateTime.now();
-//    }
-//
-//    public void reject(String supervisorId) {
-//        reject(supervisorId, null);
-//    }
-//
-//    public String getDecisionNote(){ return decisionNote; }
-//
-//    @Override
-//    public String toString() {
-//        return "Proposal{" +
-//                "id='" + id + '\'' +
-//                ", projectId='" + projectId + '\'' +
-//                ", status=" + status +
-//                ", submittedBy='" + submittedBy + '\'' +
-//                ", reviewedBy='" + reviewedBy + '\'' +
-//                ", summary='" + summary + '\'' +
-//                '}';
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(id);
-//    }
-//
-
-//    public Proposal withStatus(Proposal.Status status) {
-//        return new Proposal(this.id(), this.projectId(), this.summary(), this.studentId(),
-//                status, this.submittedAt(), this.reviewedAt(), this.reviewedBy());
-//    }
-//
-//    public Proposal withReviewedBy(String reviewerId) {
-//        return new Proposal(this.id(), this.projectId(), this.summary(), this.studentId(),
-//                this.status(), this.submittedAt(), this.reviewedAt(), reviewerId);
-//    }
-//
-//    public Proposal withReviewedAt(LocalDateTime time) {
-//        return new Proposal(this.id(), this.projectId(), this.summary(), this.studentId(),
-//                this.status(), this.submittedAt(), time, this.reviewedBy());
-//    }
-
-
-//}
+    }

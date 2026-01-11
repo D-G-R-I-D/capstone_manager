@@ -32,6 +32,7 @@ public class StudentDashboardController {
     @FXML private Label activeProjectsLabel; // New
     @FXML private Label pendingMilestonesLabel; // New
     @FXML private Label completionRateLabel; // New
+    @FXML private ProgressBar completionBar;
 
     private final ProjectService projectService = new ProjectService();
 
@@ -43,7 +44,7 @@ public class StudentDashboardController {
             throw new IllegalStateException("No session user");
         }
 
-        welcomeLabel.setText("Welcome, " + student.getUsername() + " STUDENT");
+        welcomeLabel.setText("Welcome, " + student.getUsername() + " (STUDENT)");
 
         // Set up table columns
         titleCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTitle()));
@@ -52,38 +53,36 @@ public class StudentDashboardController {
         actionsCol.setCellValueFactory(cellData -> new SimpleStringProperty("View Details")); // placeholder
 
         // Load student's projects
+        // Load projects
         ObservableList<Project> projects = FXCollections.observableArrayList(
                 projectService.getProjectsForStudent(student.getId())
         );
         projectTable.setItems(projects);
 
-        // Calculate real stats
+        // Real active projects
         int activeCount = (int) projects.stream()
                 .filter(p -> p.getStatus() == ProjectStatus.IN_PROGRESS || p.getStatus() == ProjectStatus.PENDING)
                 .count();
         activeProjectsLabel.setText(String.valueOf(activeCount));
 
-        // Count pending/in-progress milestones across all projects
+        // Real pending milestones
         long pendingMilestones = projects.stream()
                 .flatMap(p -> p.getMilestones().stream())
                 .filter(m -> m.getStatus() == MilestoneStatus.PENDING || m.getStatus() == MilestoneStatus.IN_PROGRESS)
                 .count();
         pendingMilestonesLabel.setText(String.valueOf(pendingMilestones));
 
-        // Completion rate (average % of completed milestones across all projects)
-        if (projects.isEmpty()) {
-            completionRateLabel.setText("0%");
-        } else {
-            double totalMilestones = projects.stream()
-                    .mapToLong(p -> p.getMilestones().size())
-                    .sum();
-            double completedMilestones = projects.stream()
-                    .flatMap(p -> p.getMilestones().stream())
-                    .filter(m -> m.getStatus() == MilestoneStatus.COMPLETED)
-                    .count();
-            double completion = totalMilestones == 0 ? 0 : (completedMilestones / totalMilestones) * 100;
-            completionRateLabel.setText(String.format("%.0f%%", completion));
-        }
+        // Real completion rate
+        long totalMilestones = projects.stream()
+                .mapToLong(p -> p.getMilestones().size())
+                .sum();
+        long completed = projects.stream()
+                .flatMap(p -> p.getMilestones().stream())
+                .filter(m -> m.getStatus() == MilestoneStatus.COMPLETED)
+                .count();
+        double completion = totalMilestones == 0 ? 0 : (completed * 100.0 / totalMilestones);
+        completionRateLabel.setText(String.format("%.0f%%", completion));
+        completionBar.setProgress(completion / 100.0);  // Set the progress bar
     }
 
     @FXML

@@ -1,80 +1,206 @@
-.student-dashboard {
-    -fx-background-color: #f9fafb;
-    -fx-padding: 0;
+/* Global styles for the whole app */
+/*.root {
+    -fx-background-color: #f0f4f8;  *//* Soft blue-gray background for uni feel *//*
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+}*/
+
+.root {
+    -fx-background-image: url("/images/uni_faint_bg.jpg");  /* Add a very light uni background */
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
 }
 
-.header {
-    -fx-background-color: #ffffff;
-    -fx-border-color: #e5e7eb;
-    -fx-border-width: 0 0 1 0;
-}
-
-.welcome-title {
-    -fx-font-size: 24px;
-    -fx-font-weight: 700;
-    -fx-text-fill: #111827;
-}
-
-.logout-btn {
-    -fx-background-color: #ef4444;
-    -fx-text-fill: white;
-    -fx-background-radius: 8;
-    -fx-padding: 8 16;
-}
-
-.actions-row {
-    -fx-padding: 20 40;
-}
-
-.action-btn {
-    -fx-background-radius: 10;
-    -fx-padding: 12 25;
-    -fx-font-weight: bold;
-    -fx-font-size: 14px;
-}
-
-.primary { -fx-background-color: #3b82f6; -fx-text-fill: white; }
-.primary:hover { -fx-background-color: #2563eb; }
-
-.secondary { -fx-background-color: #6b7280; -fx-text-fill: white; }
-.secondary:hover { -fx-background-color: #4b5563; }
-
-.info { -fx-background-color: #8b5cf6; -fx-text-fill: white; }
-.info:hover { -fx-background-color: #7c3aed; }
-
-.card {
+/* Login/Register/Auth Pages */
+.auth-container {
     -fx-background-color: white;
     -fx-background-radius: 16;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 15, 0, 0, 5);
-    -fx-padding: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 8);
+    -fx-padding: 40;
+    -fx-max-width: 500;
+    -fx-alignment: center;
 }
 
-.card-title {
-    -fx-font-size: 20px;
-    -fx-font-weight: 600;
+.logo-image {
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 5);
+}
+
+.title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
     -fx-text-fill: #1f2937;
 }
 
+.text-field, .password-field, .choice-box {
+    -fx-background-color: #f9fafb;
+    -fx-border-color: #d1d5db;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 12;
+    -fx-font-size: 15px;
+    -fx-pref-width: 350;
+}
+
+.primary-button {
+    -fx-background-color: #3b82f6;
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-padding: 12 30;
+    -fx-font-weight: bold;
+}
+
+.primary-button:hover {
+    -fx-background-color: #2563eb;
+}
+
+.secondary-button {
+    -fx-background-color: #6b7280;
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-padding: 10 25;
+}
+
+/* Dashboard Global */
+.student-dashboard, .supervisor-dashboard, .admin-dashboard {
+    -fx-background-color: #f0f4f8;
+}
+
+/* Hero Banner */
+.hero-banner {
+    -fx-pref-height: 220;
+    -fx-background-radius: 0 0 20 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 5);
+}
+
+.banner-image {
+    -fx-opacity: 0.35;
+}
+
+.welcome-title {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, black, 5, 0, 0, 2);
+}
+
+/* Action Buttons */
+.actions-row {
+    -fx-padding: 20;
+}
+
+.action-btn {
+    -fx-background-radius: 12;
+    -fx-padding: 15 30;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.primary { -fx-background-color: #3b82f6; }
+.primary:hover { -fx-background-color: #2563eb; }
+
+.secondary { -fx-background-color: #10b981; }
+.secondary:hover { -fx-background-color: #059669; }
+
+.info { -fx-background-color: #8b5cf6; }
+.info:hover { -fx-background-color: #7c3aed; }
+
+/* Cards */
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 16;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 8);
+    -fx-max-width: 900;
+    -fx-alignment: center;
+}
+
+.card-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #1f2937;
+}
+
+/* Stats Cards */
 .stats-row {
-    -fx-padding: 20 40;
+    -fx-max-width: 900;
+    -fx-padding: 20;
 }
 
 .stat-card {
     -fx-background-color: white;
-    -fx-background-radius: 12;
+    -fx-background-radius: 16;
     -fx-padding: 25;
-    -fx-alignment: center;
-    -fx-min-width: 180;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 10, 0, 0, 3);
+    -fx-min-width: 220;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 5);
 }
 
 .stat-number {
-    -fx-font-size: 36px;
+    -fx-font-size: 40px;
     -fx-font-weight: bold;
     -fx-text-fill: #3b82f6;
 }
 
 .stat-label {
+    -fx-font-size: 15px;
+    -fx-text-fill: #4b5563;
+}
+
+.progress-bar {
+    -fx-pref-width: 150;
+    -fx-pref-height: 12;
+    -fx-background-color: #e5e7eb;
+    -fx-accent: #3b82f6;
+    -fx-background-radius: 10;
+}
+
+/* Logout */
+.logout-btn {
+    -fx-background-color: #ef4444;
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-padding: 10 25;
+    -fx-font-weight: bold;
+}
+
+
+
+
+
+/* proposal */
+
+.proposal-form {
+    -fx-background-color: white;
+    -fx-background-radius: 16;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 8);
+    -fx-max-width: 600;
+}
+
+.form-title {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1f2937;
+}
+
+.field-label {
+    -fx-font-size: 15px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #374151;
+}
+
+.file-status {
     -fx-font-size: 14px;
     -fx-text-fill: #6b7280;
+}
+
+.back-btn {
+    -fx-background-color: #6b7280;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-padding: 8 16;
+}
+
+.message-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #dc2626;
 }

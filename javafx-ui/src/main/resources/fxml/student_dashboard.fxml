@@ -6,31 +6,44 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.image.Image?>
-<VBox spacing="25" alignment="TOP_CENTER" styleClass="student-dashboard"
+<VBox spacing="20" alignment="TOP_CENTER" styleClass="student-dashboard"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.capstone.controllers.StudentDashboardController">
 
-    <!-- Header: Logo + Welcome + Logout -->
-    <HBox alignment="CENTER_LEFT" spacing="20" styleClass="header">
-        <padding>
-            <Insets top="15" right="40" bottom="15" left="40"/>
-        </padding>
-        <ImageView fitWidth="55" fitHeight="55" preserveRatio="true" styleClass="logo-image">
-            <Image url="@/images/capstone logo 1.jpg"/>
+    <!-- Hero Banner (uni campus image) -->
+    <StackPane alignment="CENTER" styleClass="hero-banner">
+        <ImageView fitWidth="1000" preserveRatio="true" styleClass="banner-image">
+            <Image url="@/images/uni_banner.jpg"/>  <!-- Add a nice uni image -->
         </ImageView>
         <Label fx:id="welcomeLabel" styleClass="welcome-title"/>
-        <Region HBox.hgrow="ALWAYS"/>
-        <Button text="Logout" onAction="#handleLogout" styleClass="logout-btn"/>
+    </StackPane>
+
+    <!-- Action Buttons with Icons -->
+    <HBox spacing="25" alignment="CENTER" styleClass="actions-row">
+        <Button text="Submit New Proposal" onAction="#submitProposal" styleClass="action-btn primary">
+            <graphic>
+                <ImageView fitHeight="24" fitWidth="24">
+                    <Image url="@/images/proposal_icon.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button text="View My Milestones" onAction="#viewMilestones" styleClass="action-btn secondary">
+            <graphic>
+                <ImageView fitHeight="24" fitWidth="24">
+                    <Image url="@/images/milestone_icon.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Button text="My Grades" onAction="#viewGrades" styleClass="action-btn info">
+            <graphic>
+                <ImageView fitHeight="24" fitWidth="24">
+                    <Image url="@/images/grades_icon.png"/>
+                </ImageView>
+            </graphic>
+        </Button>
     </HBox>
 
-    <!-- Quick Action Buttons -->
-    <HBox spacing="20" alignment="CENTER" styleClass="actions-row">
-        <Button text="Submit New Proposal" onAction="#submitProposal" styleClass="action-btn primary"/>
-        <Button text="View My Milestones" onAction="#viewMilestones" styleClass="action-btn secondary"/>
-        <Button text="My Grades" onAction="#viewGrades" styleClass="action-btn info"/>
-    </HBox>
-
-    <!-- Projects Section -->
+    <!-- Projects Card -->
     <VBox spacing="15" styleClass="card">
         <padding>
             <Insets top="20" right="40" bottom="20" left="40"/>
@@ -46,8 +59,8 @@
         </TableView>
     </VBox>
 
-    <!-- Stats Cards (real data from table) -->
-    <HBox spacing="25" alignment="CENTER" styleClass="stats-row">
+    <!-- Stats Cards with Progress Bar -->
+    <HBox spacing="30" alignment="CENTER" styleClass="stats-row">
         <VBox alignment="CENTER" styleClass="stat-card">
             <Label fx:id="activeProjectsLabel" text="0" styleClass="stat-number"/>
             <Label text="Active Projects" styleClass="stat-label"/>
@@ -57,8 +70,12 @@
             <Label text="Pending Milestones" styleClass="stat-label"/>
         </VBox>
         <VBox alignment="CENTER" styleClass="stat-card">
+            <ProgressBar fx:id="completionBar" progress="0" styleClass="progress-bar"/>
             <Label fx:id="completionRateLabel" text="0%" styleClass="stat-number"/>
             <Label text="Completion Rate" styleClass="stat-label"/>
         </VBox>
     </HBox>
+
+    <!-- Logout -->
+    <Button text="Logout" onAction="#handleLogout" styleClass="logout-btn"/>
 </VBox>

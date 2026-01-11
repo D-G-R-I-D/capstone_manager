@@ -85,6 +85,7 @@ CREATE TABLE proposals (
     status ENUM('PENDING', 'APPROVED', 'REJECTED') DEFAULT 'PENDING',
     reviewed_by VARCHAR(50),
     submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    file_data LONGBLOB,
 
     FOREIGN KEY (submitted_by) REFERENCES users(id),
     FOREIGN KEY (reviewed_by) REFERENCES users(id),

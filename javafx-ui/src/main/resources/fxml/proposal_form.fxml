@@ -1,25 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 
-<?import javafx.scene.layout.HBox?>
-<VBox spacing="20" alignment="CENTER" styleClass="form-container"
+<VBox spacing="20" alignment="CENTER" styleClass="proposal-form" maxWidth="600"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.capstone.controllers.ProposalFormController">
 
-    <Label text="Submit Proposal" styleClass="title"/>
+    <padding>
+        <Insets top="40" right="40" bottom="40" left="40"/>
+    </padding>
 
-    <TextField fx:id="titleField" promptText="Proposal Title"/>
+    <Label text="Submit Proposal" styleClass="form-title"/>
 
-    <TextArea fx:id="descriptionArea" promptText="Description" wrapText="true" prefHeight="200"/>
+    <Button text="Back to Dashboard" onAction="#goBack" styleClass="back-btn"/>
 
-    <HBox spacing="10">
+    <Label text="Proposal Title" styleClass="field-label"/>
+    <TextField fx:id="titleField" promptText="Enter proposal title"/>
+
+    <Label text="Description" styleClass="field-label"/>
+    <TextArea fx:id="descriptionArea" promptText="Describe your proposal..." wrapText="true" prefHeight="150"/>
+
+    <Label text="Attach File (PDF/DOCX)" styleClass="field-label"/>
+    <HBox spacing="15" alignment="CENTER_LEFT">
         <Button text="Choose File" onAction="#chooseFile" styleClass="primary-button"/>
-        <Label fx:id="fileLabel" text="No file selected"/>
+        <Label fx:id="fileLabel" text="No file selected" styleClass="file-status"/>
     </HBox>
 
-    <Button text="Submit" onAction="#submitProposal" styleClass="primary-button"/>
+    <Button text="Submit Proposal" onAction="#submitProposal" styleClass="primary-button" prefWidth="200"/>
 
-    <Label fx:id="messageLabel" styleClass="error-label"/>
+    <Label fx:id="messageLabel" styleClass="message-label"/>
 </VBox>
