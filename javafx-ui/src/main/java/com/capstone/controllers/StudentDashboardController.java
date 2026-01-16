@@ -1,5 +1,6 @@
 package com.capstone.controllers;
 
+import com.capstone.javafxui.MainApp;
 import com.capstone.models.Project;
 import com.capstone.models.User;
 import com.capstone.models.enums.MilestoneStatus;
@@ -14,6 +15,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -44,7 +46,25 @@ public class StudentDashboardController {
             throw new IllegalStateException("No session user");
         }
 
-        welcomeLabel.setText("Welcome, " + student.getUsername() + " (STUDENT)");
+        welcomeLabel.setText("WELCOME, " + student.getUsername().toUpperCase() + " (STUDENT)");
+
+////        set like hover
+//        welcomeLabel.setOnMouseEntered(_ ->
+//                welcomeLabel.setStyle("""
+//                                      -fx-font-family: 'Segoe UI'; -fx-font-size: 20px;
+//                                      -fx-font-weight: bold; -fx-text-fill: #0d131f;
+//                                      -fx-cursor: hand; -fx-scale-x: 1.05;
+//                                      -fx-scale-y: 1.05;
+//                                      """ /* Subtle zoom effect */
+//        ));
+//
+//        welcomeLabel.setOnMouseExited(_ ->
+//                // Return to the original "static" look
+//                welcomeLabel.setStyle("""
+//                                      -fx-font-family: 'Segoe UI'; -fx-font-size: 20px;
+//                                      -fx-font-weight: bold; fx-cursor: default;
+//                                      """
+//                ));
 
         // Set up table columns
         titleCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTitle()));
@@ -115,11 +135,43 @@ public class StudentDashboardController {
 
     @FXML
     private void handleLogout() throws Exception {
-        Session.logout();
         Stage stage = (Stage) welcomeLabel.getScene().getWindow();
-        stage.setScene(new Scene(FXMLLoader.load(Objects.requireNonNull(
-                getClass().getResource("/fxml/login.fxml")
-        ))));
+
+        // Save current bounds
+        double x = stage.getX();
+        double y = stage.getY();
+        double width = stage.getWidth();
+        double height = stage.getHeight();
+
+        Session.logout();
+
+        MainApp mainApp = (MainApp) stage.getUserData();
+        if (mainApp != null) {
+            mainApp.showLoginScene();
+
+            // Restore bounds after switch
+            stage.setX(x);
+            stage.setY(y);
+            stage.setWidth(width);
+            stage.setHeight(height);
+            stage.requestFocus();
+            stage.toFront();
+        } else {
+            // Fallback with bounds restore
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
+            stage.setScene(scene);
+            stage.setTitle("Capstone Manager - Login");
+
+            stage.setX(x);
+            stage.setY(y);
+            stage.setWidth(width);
+            stage.setHeight(height);
+            stage.requestFocus();
+            stage.toFront();
+        }
     }
 
     // Add this method inside the class

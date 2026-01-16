@@ -11,7 +11,7 @@ public class CommentService {
 
     public void add(String projectId, String authorId, String message, String parentId) {
         Comment c = new Comment(
-                IdGenerator.id(),       //UUID.randomUUID().toString(),
+                IdGenerator.generateId(),       //UUID.randomUUID().toString(),
                 projectId,
                 authorId,
                 message,

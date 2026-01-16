@@ -1,5 +1,6 @@
 package com.capstone.controllers;
 
+import com.capstone.javafxui.MainApp;
 import com.capstone.models.Project;
 import com.capstone.models.User;
 import com.capstone.models.enums.Role;
@@ -11,6 +12,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -140,10 +142,42 @@ public class SupervisorDashboardController {
 
     @FXML
     private void handleLogout() throws Exception {
-        Session.logout();
         Stage stage = (Stage) welcomeLabel.getScene().getWindow();
-        stage.setScene(new Scene(FXMLLoader.load(Objects.requireNonNull(
-                getClass().getResource("/fxml/login.fxml")
-        ))));
+
+        // Save current bounds
+        double x = stage.getX();
+        double y = stage.getY();
+        double width = stage.getWidth();
+        double height = stage.getHeight();
+
+        Session.logout();
+
+        MainApp mainApp = (MainApp) stage.getUserData();
+        if (mainApp != null) {
+            mainApp.showLoginScene();
+
+            // Restore bounds after switch
+            stage.setX(x);
+            stage.setY(y);
+            stage.setWidth(width);
+            stage.setHeight(height);
+            stage.requestFocus();
+            stage.toFront();
+        } else {
+            // Fallback with bounds restore
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
+            stage.setScene(scene);
+            stage.setTitle("Capstone Manager - Login");
+
+            stage.setX(x);
+            stage.setY(y);
+            stage.setWidth(width);
+            stage.setHeight(height);
+            stage.requestFocus();
+            stage.toFront();
+        }
     }
 }

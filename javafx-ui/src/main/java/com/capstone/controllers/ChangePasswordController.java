@@ -4,12 +4,14 @@ import com.capstone.javafxui.MainApp;
 import com.capstone.models.enums.Role;
 import com.capstone.services.UserService;
 import javafx.animation.FadeTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
@@ -19,14 +21,16 @@ import javafx.util.Duration;
 
 import java.util.Objects;
 
-public class RegisterController {
+public class ChangePasswordController {
 
     @FXML HBox mainRoot;
     @FXML VBox authContainer;
+    @FXML private ImageView backgroundImage;
     @FXML private TextField usernameField;
     @FXML private TextField emailField;
     @FXML private PasswordField passwordField;
-    @FXML private ComboBox<Role> roleChoice;
+    @FXML private PasswordField confirmPasswordField;
+//    @FXML private ComboBox<Role> roleChoice;
     @FXML private Label messageLabel;
     @FXML private Circle logoCircle;
 
@@ -50,13 +54,13 @@ public class RegisterController {
         }
 
         // Listener for Input Fields
-        usernameField.textProperty().addListener((obs, oldText, newText) -> {
-            if (newText.isEmpty()) {
-                usernameField.setStyle("-fx-font-weight: normal;");
-            } else {
-                usernameField.setStyle("-fx-font-weight: bold;");
-            }
-        });
+//        usernameField.textProperty().addListener((obs, oldText, newText) -> {
+//            if (newText.isEmpty()) {
+//                usernameField.setStyle("-fx-font-weight: normal;");
+//            } else {
+//                usernameField.setStyle("-fx-font-weight: bold;");
+//            }
+//        });
 
         emailField.textProperty().addListener((obs, oldText, newText) -> {
             if (newText.isEmpty()) {
@@ -74,34 +78,48 @@ public class RegisterController {
             }
         });
 
-        roleChoice.getItems().addAll(
-                Role.STUDENT,
-                Role.SUPERVISOR,
-                Role.SENIOR_SUPERVISOR
-        );
-        roleChoice.setValue(Role.STUDENT); // can remove if not auto wanted on the page
+        confirmPasswordField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null || newValue.isEmpty()) {
+                passwordField.setStyle("-fx-font-weight: normal;");
+            } else {
+                passwordField.setStyle("-fx-font-weight: bold;");
+            }
+        });
+
+//        roleChoice.getItems().addAll(
+//                Role.STUDENT,
+//                Role.SUPERVISOR,
+//                Role.SENIOR_SUPERVISOR
+//        );
+//        roleChoice.setValue(Role.STUDENT); // can remove if not auto wanted on the page
     }
 
     @FXML
-    private void handleRegister() {
-        try {
-            userService.register(
-                    usernameField.getText(),
-                    emailField.getText(),
-                    passwordField.getText(),
-                    roleChoice.getValue()
-            );
-            messageLabel.setText("Registration successful!");
-        } catch (Exception e) {
-            messageLabel.setText("! Registration failed");
+    private void handlePasswordChange() {
+        if (passwordField.getText().equals(confirmPasswordField.getText())) {
+            try {
+                userService.changePassword(
+//                    usernameField.getText(),
+                        userService.getUserByEmail(emailField.getText()).getId(), // Or:  ->  String.valueOf(userService.getUserByEmail(emailField.getText()).getId())
+                        passwordField.getText()
+//                    roleChoice.getValue()
+                );
+                messageLabel.setText("Password changed successfully!");
+            } catch (Exception e) {
+                messageLabel.setText("! Password change failed");
+            }
         }
+        else {
+            messageLabel.setText("! Password doesn't match");
+        }
+
     }
 
     @FXML
     private void goToLogin() throws Exception{
 
         try {
-            Stage stage = (Stage) usernameField.getScene().getWindow();
+            Stage stage = (Stage) emailField.getScene().getWindow();
 
             // Save current window position and size
             double x = stage.getX();

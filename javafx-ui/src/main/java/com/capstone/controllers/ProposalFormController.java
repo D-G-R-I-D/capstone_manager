@@ -2,6 +2,7 @@ package com.capstone.controllers;
 
 import com.capstone.models.Proposal;
 import com.capstone.services.ProposalService;
+import com.capstone.utils.IdGenerator;
 import com.capstone.utils.Session;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -49,8 +50,16 @@ public class ProposalFormController {
 
     @FXML
     private void submitProposal() {
+
         try {
+            if (titleField.getText().trim().isEmpty()) {
+                messageLabel.setText("Title is required!");
+                return;
+            }
+
             Proposal proposal = new Proposal();
+            proposal.setId(IdGenerator.generateId());    //(or UUID.randomUUID().toString())
+            proposal.setTitle(titleField.getText().trim());
             proposal.setTitle(titleField.getText().trim());
             proposal.setDescription(descriptionArea.getText().trim());
             proposal.setStudentId(Session.getUser().getId());
@@ -59,7 +68,7 @@ public class ProposalFormController {
             System.out.println("File bytes length: " + (fileData != null ? fileData.length : 0));   // debug log:
             proposalService.submitProposal(proposal);
             messageLabel.setText("Proposal submitted successfully!");
-            // Optional: clear form
+            // Clear form
             titleField.clear();
             descriptionArea.clear();
             fileLabel.setText("No file selected");

@@ -31,7 +31,7 @@ public class ScoreCardFormController {
     @FXML
     private void saveScore() {
         Scorecard scorecard = new Scorecard(
-                IdGenerator.id(),
+                IdGenerator.generateId(),
                 projectId,
                 Session.getUser().getId(),
                 Session.getUser().getRole(),

@@ -3,6 +3,6 @@ import java.util.UUID;
 
 public final class IdGenerator {
     private IdGenerator(){}
-    public static String id(){ return UUID.randomUUID().toString(); }
+    public static String generateId(){ return UUID.randomUUID().toString(); }
 }
 

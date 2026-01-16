@@ -4,6 +4,9 @@ import com.capstone.ExceptionClass.DatabaseException;
 import com.capstone.models.User;
 import com.capstone.models.enums.Role;
 import com.capstone.utils.DBConnection;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import java.sql.*;
 import java.util.*;
 import java.util.logging.Logger;
@@ -14,7 +17,7 @@ public class UserDAO implements UserDAOinterface {
     private static final Logger LOGGER = Logger.getLogger(UserDAO.class.getName());
 
     @Override
-    public void createUser(User user) {
+    public void createUser(@NotNull User user) {
         String sql = """
         INSERT INTO users (id, username, email, password_hash, role)
         VALUES (?,?,?,?,?)
@@ -99,8 +102,37 @@ public class UserDAO implements UserDAOinterface {
         return list;
     }
 
+   /* @Override
+    public void changePasword(@NotNull User user) {
+        String sql = """
+            UPDATE users
+            SET password_hash=?
+            WHERE id=?
+        """;
+
+        try (Connection c = DBConnection.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+
+            ps.setString(1, user.getPasswordHash());
+            ps.setString(2, user.getId());
+//            ps.setString(1, user.getUsername());
+//            ps.setString(2, user.getEmail());
+//            ps.setString(4, user.getRole().name());
+
+
+            int rows = ps.executeUpdate();
+            if (rows == 0) {
+                throw new DatabaseException("User password not changed for — user with ID. " + user.getId() + " may not exist", null);
+            }
+
+        } catch (SQLException e) {
+            LOGGER.severe("Failed to update user: " + e.getMessage());
+            throw new DatabaseException("Failed to update");
+        }
+    }*/
+
     @Override
-    public void update(User user) {
+    public void update(@NotNull User user) {
         String sql = """
             UPDATE users
             SET username=?, email=?, password_hash=?, role=?
@@ -142,15 +174,16 @@ public class UserDAO implements UserDAOinterface {
         return false;
     }
 
-        private User mapUser(ResultSet rs) throws SQLException {
-            return (new User(
-                    rs.getString("id"),
-                    rs.getString("username"),
-                    rs.getString("email"),
-                    rs.getString("password_hash"),
-                    Role.valueOf(rs.getString("role").toUpperCase())
-            ));
-        }
+    @Contract("_ -> new")
+    private @NotNull User mapUser(ResultSet rs) throws SQLException {
+        return (new User(
+                rs.getString("id"),
+                rs.getString("username"),
+                rs.getString("email"),
+                rs.getString("password_hash"),
+                Role.valueOf(rs.getString("role").toUpperCase())
+        ));
+    }
 
     @Override
     public Optional<User> findByUsernameOrEmail(String identifier) {
@@ -174,6 +207,31 @@ public class UserDAO implements UserDAOinterface {
         } catch (SQLException e) {
             LOGGER.severe("Database error while searching for user: " + e.getMessage());
             throw new DatabaseException("Failed to retrieve user by username or email", e);
+            // Consider whether to rethrow as a custom exception or return Optional<User>
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<User> findByEmail(String identifier) {
+        String sql = """
+            SELECT id, username, email, password_hash, role
+            FROM users
+            WHERE LOWER(email) = LOWER(?)
+            """;
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, identifier);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return Optional.of(mapUser(rs));  // mapUser returns User
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.severe("Database error while searching for user: " + e.getMessage());
+            throw new DatabaseException("Failed to retrieve user by email", e);
             // Consider whether to rethrow as a custom exception or return Optional<User>
         }
         return Optional.empty();

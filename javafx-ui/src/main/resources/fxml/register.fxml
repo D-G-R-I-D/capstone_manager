@@ -1,31 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<?import javafx.scene.image.Image?>
-<VBox spacing="20" alignment="CENTER" maxWidth="450" styleClass="auth-container"
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.effect.DropShadow?>
+<HBox fx:id="mainRoot" fillHeight="true" alignment="CENTER"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.capstone.controllers.RegisterController">
+      fx:controller="com.capstone.controllers.RegisterController"
+      styleClass="main-bg">
 
     <!-- Logo -->
-    <ImageView fitWidth="140" fitHeight="140" preserveRatio="true">
-        <Image url="@/images/capstone logo 1.jpg"/>
-    </ImageView>
+    <StackPane styleClass="logo-container" HBox.hgrow="NEVER">
 
-    <Label text="Create Account" styleClass="title"/>
+        <HBox.margin>
+            <Insets top="10" right="2" bottom="10" left="30" />
+        </HBox.margin>
+        <!-- The Bottom Layer: Your Image -->
+        <Circle fx:id="logoCircle" radius="70" />
 
-    <TextField fx:id="usernameField" promptText="Username" maxWidth="350"/>
-    <TextField fx:id="emailField" promptText="Email" maxWidth="350"/>
-    <PasswordField fx:id="passwordField" promptText="Password" maxWidth="350"/>
-    <ChoiceBox fx:id="roleChoice" maxWidth="350"/>
+        <!-- The Top Layer: The Fade Effect -->
+        <Circle radius="70" mouseTransparent="true">
+            <fill>
+                <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                    <stops>
+                        <Stop offset="0.9" color="TRANSPARENT" />
+                        <Stop offset="1.0" color="#0a0e17" /> <!-- Same as container bg -->
+                    </stops>
+                </RadialGradient>
+            </fill>
+        </Circle>
+    </StackPane>
 
-    <Button text="Register" onAction="#handleRegister" styleClass="primary-button">
-        <tooltip><Tooltip text="Create your account" /></tooltip>
-    </Button>
+    <VBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS" styleClass="welcome-section">
+        <padding>
+            <Insets top="0" right="0" bottom="0" left="20"/>
+        </padding>
+        <Label text="Join us at" styleClass="welcome-text-small"/>
+        <Label text="Capstone Manager" styleClass="welcome-text-large"/>
+        <Label text="Start managing your academic milestones today." styleClass="welcome-subtext" wrapText="true" maxWidth="400"/>
+    </VBox>
 
-    <Button text="Back to Login" onAction="#goToLogin" styleClass="secondary-button"/>
+    <HBox alignment="CENTER">
+        <StackPane HBox.hgrow="ALWAYS" alignment="CENTER_RIGHT">
+            <padding><Insets right="20"/></padding>
+        </StackPane>
 
-    <Label fx:id="messageLabel" styleClass="error"/>
-</VBox>
+        <Region prefWidth="1" prefHeight="820" maxHeight="820">
+            <style>
+                -fx-background-color: linear-gradient(
+                to bottom,
+                transparent,
+                #4a4e57 20%,
+                #4a4e57 80%,
+                transparent
+                );
+            </style>
+            <effect>
+                <DropShadow color="#3a3f4b" radius="10" spread="0.1" />
+            </effect>
+        </Region>
+        <StackPane HBox.hgrow="ALWAYS" alignment="CENTER_LEFT">
+            <padding><Insets left="50"/></padding>
+        </StackPane>
+    </HBox>
+
+    <VBox alignment="TOP_CENTER" HBox.hgrow="ALWAYS" styleClass="login-section">
+
+       <!-- <HBox alignment="TOP_RIGHT" spacing="10">
+            <padding><Insets top="10" right="10" bottom="0" left="0"/></padding>
+            <Button text="—" onAction="#handleMinimize" styleClass="window-control-btn"/>
+            <Button text="✕" onAction="#handleClose" styleClass="window-control-btn" id="close-btn"/>
+        </HBox>-->
+
+        <VBox alignment="CENTER" spacing="25" VBox.vgrow="ALWAYS">
+            <VBox fx:id="authContainer" prefHeight="500" alignment="CENTER" spacing="20" styleClass="authContainer">
+                <Label text="CREATE ACCOUNT" styleClass="login-header"/>
+
+                <VBox spacing="8" maxWidth="300">
+                    <TextField fx:id="usernameField" promptText="Username" styleClass="glass-field"/>
+                    <TextField fx:id="emailField" promptText="Email" styleClass="glass-field"/>
+                    <PasswordField fx:id="passwordField" promptText="Password" styleClass="glass-field"/>
+                    <ComboBox fx:id="roleChoice" promptText="Select Role" maxWidth="300" styleClass="glass-combo"/>
+                </VBox>
+
+                <Button text="REGISTER" onAction="#handleRegister" styleClass="login-button" maxWidth="300"/>
+
+                <Hyperlink text="Already have an account? Login" onAction="#goToLogin" styleClass="glass-link"/>
+            </VBox>
+            <Label fx:id="messageLabel" styleClass="error-label"/>
+        </VBox>
+    </VBox>
+</HBox>

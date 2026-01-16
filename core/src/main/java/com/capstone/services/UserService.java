@@ -75,10 +75,16 @@ public class UserService {
         return userDAO.findById(id);
     }
 
-    // For callers that expect user to exist
+    // For callers that expect user to exist by id
     public User getUserById(String id) {
         return userDAO.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + id));
+    }
+
+    // For callers that expect user to exist
+    public User getUserByEmail(String identifier) {
+        return userDAO.findByEmail(identifier)
+                .orElseThrow(() -> new UserNotFoundException("User not found with email: " + identifier));
     }
 
     public List<User> getAllUsers() {

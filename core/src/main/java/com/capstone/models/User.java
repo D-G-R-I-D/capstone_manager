@@ -19,6 +19,11 @@ public class User {
         this.role = role;
     }
 
+    public User(String id, String passwordHash) {   // Reference cause -> change of password (UserDAO)
+        this.id = id;
+        this.passwordHash = passwordHash;
+    }
+
     // Getters & Setters
     public String getId() {
         return id;

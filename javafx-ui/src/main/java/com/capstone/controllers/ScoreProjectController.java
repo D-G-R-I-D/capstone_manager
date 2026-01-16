@@ -53,7 +53,7 @@ public class ScoreProjectController {
         }
 
         Scorecard scorecard = new Scorecard(
-                IdGenerator.id(),
+                IdGenerator.generateId(),
                 projectId,
                 Session.getUser().getId(),
                 Session.getUser().getRole(),  // Role object, not string

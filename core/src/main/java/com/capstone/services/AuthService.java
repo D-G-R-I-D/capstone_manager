@@ -13,7 +13,7 @@ public class AuthService {
         identifier = identifier.trim().toLowerCase();  // Trim and lower for consistency
         password = password.trim();  // Trim password
 
-        Optional<User> userOpt = userDAO.findByUsernameOrEmail(identifier);
+        Optional<User> userOpt = userDAO.findByEmail(identifier);
 
         // Unwrap the Optional: Throw if no user found (for invalid identifier)
         User user = userOpt.orElseThrow(() -> new AuthenticationException("Invalid username or email"));

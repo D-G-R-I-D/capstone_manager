@@ -11,12 +11,26 @@
       fx:controller="com.capstone.controllers.StudentDashboardController">
 
     <!-- Hero Banner (uni campus image) -->
-    <StackPane alignment="CENTER" styleClass="hero-banner">
+    <!--<StackPane alignment="TOP_LEFT" styleClass="hero-banner">
         <ImageView fitWidth="1000" preserveRatio="true" styleClass="banner-image">
-            <Image url="@/images/uni_banner.jpg"/>  <!-- Add a nice uni image -->
+            <Image url="@/images/uni_banner.jpg"/>  &lt;!&ndash; Add a nice uni image &ndash;&gt;
         </ImageView>
-        <Label fx:id="welcomeLabel" styleClass="welcome-title"/>
-    </StackPane>
+        &lt;!&ndash;<Label fx:id="welcomeLabel"  style="-fx-font-family: 'Segoe UI'; -fx-font-size: 28px; -fx-font-weight: bold; -fx-font-fill: #050505" />&ndash;&gt;
+    </StackPane>-->
+
+    <HBox spacing="20" styleClass="header">  <!--*******-->
+        <padding>
+            <Insets top="30" right="40" bottom="15" left="40"/>  <!-- Increased top padding to 30 -->
+        </padding>
+
+        <!-- Push welcome to right, with some right margin -->
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <Label fx:id="welcomeLabel" styleClass="welcome-title" />
+
+        <!-- Logout at far right -->
+        <Button text="Logout" onAction="#handleLogout" styleClass="logout-btn"/>
+    </HBox>
 
     <!-- Action Buttons with Icons -->
     <HBox spacing="25" alignment="CENTER" styleClass="actions-row">
@@ -76,6 +90,4 @@
         </VBox>
     </HBox>
 
-    <!-- Logout -->
-    <Button text="Logout" onAction="#handleLogout" styleClass="logout-btn"/>
 </VBox>

@@ -29,6 +29,6 @@
     </HBox>
 
     <Button text="Submit Proposal" onAction="#submitProposal" styleClass="primary-button" prefWidth="200"/>
-
+    <Button text="Back to Dashboard" onAction="#goBack" styleClass="back-btn"/>      //********************
     <Label fx:id="messageLabel" styleClass="message-label"/>
 </VBox>

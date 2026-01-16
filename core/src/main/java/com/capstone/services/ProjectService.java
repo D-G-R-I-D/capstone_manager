@@ -58,7 +58,7 @@ public class ProjectService {
 
     public void addComment(String projectId, String message) {
         Comment comment = new Comment(
-                IdGenerator.id(),
+                IdGenerator.generateId(),
                 projectId,
                 Session.getUser().getId(),
                 null,                    // no parent comment
@@ -73,7 +73,7 @@ public class ProjectService {
 
     public void scoreProject(String projectId, int totalScore) {
         Scorecard scorecard = new Scorecard(
-                IdGenerator.id(),
+                IdGenerator.generateId(),
                 projectId,
                 Session.getUser().getId(),
                 Session.getUser().getRole(),

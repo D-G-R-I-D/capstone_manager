@@ -10,6 +10,7 @@
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/desktops/pom.xml" />
+        <option value="$PROJECT_DIR$/swing-ui/pom.xml" />
         <option value="$PROJECT_DIR$/web/pom.xml" />
       </set>
     </option>
