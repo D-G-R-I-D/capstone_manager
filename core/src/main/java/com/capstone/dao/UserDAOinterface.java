@@ -9,7 +9,7 @@ public interface UserDAOinterface {
     Optional<User> findById(String id);
     Optional<User> findByUsername(String username);
     List<User> getAllUsers();
-//    void changePasword(User user);
+    //    void changePasword(User user);
     void update(User user);
     boolean deleteUser(String id);
     Optional<User> findByUsernameOrEmail(String usernameOrEmail);

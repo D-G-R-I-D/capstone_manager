@@ -8,6 +8,5 @@ public enum ProjectStatus {
     ON_HOLD,
     PENDING,
     APPROVED,
-    REJECTED
+    ACTIVE, REJECTED
 }
-

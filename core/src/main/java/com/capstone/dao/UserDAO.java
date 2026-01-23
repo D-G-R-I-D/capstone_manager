@@ -237,4 +237,3 @@ public class UserDAO implements UserDAOinterface {
         return Optional.empty();
     }
 }
-

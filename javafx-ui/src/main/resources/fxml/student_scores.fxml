@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" alignment="TOP_CENTER" spacing="20" style="-fx-background-color: white; -fx-padding: 30;">
+    <Label text="My Grades" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+    <VBox spacing="10" maxWidth="600" style="-fx-background-color: #f9f9f9; -fx-padding: 20; -fx-background-radius: 10;">
+        <Label text="Project Scorecard" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+        <Separator/>
+        <HBox spacing="20"><Label text="Technical Depth:"/><Label text="Waiting for grade..." textFill="grey"/></HBox>
+        <HBox spacing="20"><Label text="Problem Solving:"/><Label text="Waiting for grade..." textFill="grey"/></HBox>
+        <HBox spacing="20"><Label text="Presentation:"/><Label text="Waiting for grade..." textFill="grey"/></HBox>
+        <HBox spacing="20"><Label text="Design:"/><Label text="Waiting for grade..." textFill="grey"/></HBox>
+        <Separator/>
+        <Label text="Total: 0 / 80" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+    </VBox>
+</VBox>

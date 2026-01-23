@@ -96,10 +96,30 @@ public class LoginController {
                 case SENIOR_SUPERVISOR -> "/fxml/senior_supervisor_dashboard.fxml";
             };
 
+//            // 2. ROUTING LOGIC (The Fix)
+//            String fxmlPath;
+//            String title = "";
+//
+//            switch (user.getRole()) {
+//                case SUPERVISOR:
+//                    fxmlPath = "/fxml/supervisor_dashboard.fxml";
+//                    title = "Supervisor Dashboard";
+//                    break;
+//                case ADMIN:
+//                    fxmlPath = "/fxml/admin_dashboard.fxml"; // Ensure this file exists!
+//                    title = "Admin Dashboard";
+//                    break;
+//                case STUDENT:
+//                default: // Default to student only if role matches or is unknown
+//                    fxmlPath = "/fxml/student_dashboard.fxml";
+//                    title = "Student Dashboard";
+//                    break;
+//            }
+
             // Switch to dashboard using MainApp method
             MainApp mainApp = (MainApp) emailField.getScene().getWindow().getUserData();
             if (mainApp != null) {
-                mainApp.showStudentDashboard();
+                mainApp.showDashboard(user);
             } else {
                 // Fallback (shouldn't happen if MainApp setUserData is working)
                 Stage stage = (Stage) emailField.getScene().getWindow();
@@ -148,9 +168,11 @@ public class LoginController {
         MainApp mainApp = (MainApp) emailField.getScene().getWindow().getUserData();
         if (mainApp != null) {
             mainApp.showRegisterScene();  // Uses the centered method
-
+            stage.setX(x);
+            stage.setY(y);
+            stage.setWidth(width);
+            stage.setHeight(height);
             // Restore after switch
-
         } else {
             // Fallback (rare)
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/register.fxml"));

@@ -6,4 +6,3 @@ public enum MilestoneStatus {
     COMPLETED
 //    NOT_STARTED,
 }
-

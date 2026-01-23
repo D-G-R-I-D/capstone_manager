@@ -39,8 +39,9 @@ public class ProposalService {
                 "Capstone Project",
                 p.getSubmittedBy(),
                 supervisorId,
-                ProjectStatus.IN_PROGRESS,
-                LocalDateTime.now()
+                p.getFilePath(),
+                LocalDateTime.now(),
+                ProjectStatus.IN_PROGRESS
         );
 
         projectDAO.save(project);

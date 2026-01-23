@@ -100,5 +100,17 @@ public class MilestoneDAO implements MilestoneDaointerface {
             ps.executeUpdate();
         } catch (Exception e) { LOGGER.severe("Failed to delete milestone: " + e.getMessage());}
     }
-}
 
+    public void updateMilestoneStatus(String milestoneId, MilestoneStatus newStatus) {
+        String query = "UPDATE milestones SET status = ? WHERE id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, newStatus.name()); // NOT_STARTED, IN_PROGRESS, etc.
+            pstmt.setString(2, milestoneId);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) { LOGGER.severe("Failed to update milestone status: " + e.getMessage());
+        }
+    }
+}

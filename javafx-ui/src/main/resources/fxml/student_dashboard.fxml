@@ -1,93 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.shape.Circle?>
 
-<?import javafx.scene.image.Image?>
-<VBox spacing="20" alignment="TOP_CENTER" styleClass="student-dashboard"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.capstone.controllers.StudentDashboardController">
+<BorderPane fx:id="mainRoot" prefHeight="700.0" prefWidth="1100.0"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.capstone.controllers.StudentDashboardController"
+            style="-fx-background-color: #f4f6f8;">
 
-    <!-- Hero Banner (uni campus image) -->
-    <!--<StackPane alignment="TOP_LEFT" styleClass="hero-banner">
-        <ImageView fitWidth="1000" preserveRatio="true" styleClass="banner-image">
-            <Image url="@/images/uni_banner.jpg"/>  &lt;!&ndash; Add a nice uni image &ndash;&gt;
-        </ImageView>
-        &lt;!&ndash;<Label fx:id="welcomeLabel"  style="-fx-font-family: 'Segoe UI'; -fx-font-size: 28px; -fx-font-weight: bold; -fx-font-fill: #050505" />&ndash;&gt;
-    </StackPane>-->
+    <left>
+        <VBox spacing="20" prefWidth="260" style="-fx-background-color: #2c3e50;">
+            <padding><Insets top="40" right="20" bottom="20" left="20"/></padding>
 
-    <HBox spacing="20" styleClass="header">  <!--*******-->
-        <padding>
-            <Insets top="30" right="40" bottom="15" left="40"/>  <!-- Increased top padding to 30 -->
-        </padding>
+            <VBox alignment="CENTER" spacing="15">
+                <Circle fx:id="profileCircle" radius="40" fill="WHITE" stroke="GREY"/>
+                <Label fx:id="studentName" text="Student" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px;"/>
+            </VBox>
 
-        <!-- Push welcome to right, with some right margin -->
-        <Region HBox.hgrow="ALWAYS"/>
+            <Separator opacity="0.1"/>
 
-        <Label fx:id="welcomeLabel" styleClass="welcome-title" />
+            <VBox spacing="10">
+                <Button text="Dashboard Home" onAction="#handleDashboardNav" maxWidth="Infinity"
+                        style="-fx-alignment: CENTER_LEFT; -fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px; -fx-cursor: hand;"/>
 
-        <!-- Logout at far right -->
-        <Button text="Logout" onAction="#handleLogout" styleClass="logout-btn"/>
-    </HBox>
+                <Button text="My Projects" onAction="#handleProjectDetailsNav" maxWidth="Infinity"
+                        style="-fx-alignment: CENTER_LEFT; -fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px; -fx-cursor: hand;"/>
 
-    <!-- Action Buttons with Icons -->
-    <HBox spacing="25" alignment="CENTER" styleClass="actions-row">
-        <Button text="Submit New Proposal" onAction="#submitProposal" styleClass="action-btn primary">
-            <graphic>
-                <ImageView fitHeight="24" fitWidth="24">
-                    <Image url="@/images/proposal_icon.png"/>
-                </ImageView>
-            </graphic>
-        </Button>
-        <Button text="View My Milestones" onAction="#viewMilestones" styleClass="action-btn secondary">
-            <graphic>
-                <ImageView fitHeight="24" fitWidth="24">
-                    <Image url="@/images/milestone_icon.png"/>
-                </ImageView>
-            </graphic>
-        </Button>
-        <Button text="My Grades" onAction="#viewGrades" styleClass="action-btn info">
-            <graphic>
-                <ImageView fitHeight="24" fitWidth="24">
-                    <Image url="@/images/grades_icon.png"/>
-                </ImageView>
-            </graphic>
-        </Button>
-    </HBox>
+                <Button text="Milestones" onAction="#handleMilestonesNav" maxWidth="Infinity"
+                        style="-fx-alignment: CENTER_LEFT; -fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px; -fx-cursor: hand;"/>
+            </VBox>
 
-    <!-- Projects Card -->
-    <VBox spacing="15" styleClass="card">
-        <padding>
-            <Insets top="20" right="40" bottom="20" left="40"/>
-        </padding>
-        <Label text="My Capstone Projects" styleClass="card-title"/>
-        <TableView fx:id="projectTable" prefHeight="400">
-            <columns>
-                <TableColumn fx:id="titleCol" text="Project Title" prefWidth="400"/>
-                <TableColumn fx:id="statusCol" text="Status" prefWidth="150"/>
-                <TableColumn fx:id="progressCol" text="Progress" prefWidth="120"/>
-                <TableColumn fx:id="actionsCol" text="Actions" prefWidth="150"/>
-            </columns>
-        </TableView>
-    </VBox>
+            <Region VBox.vgrow="ALWAYS" />
 
-    <!-- Stats Cards with Progress Bar -->
-    <HBox spacing="30" alignment="CENTER" styleClass="stats-row">
-        <VBox alignment="CENTER" styleClass="stat-card">
-            <Label fx:id="activeProjectsLabel" text="0" styleClass="stat-number"/>
-            <Label text="Active Projects" styleClass="stat-label"/>
+            <Button text="Logout" onAction="#handleLogout" maxWidth="Infinity"
+                    style="-fx-text-fill: #ff6b6b; -fx-background-color: transparent; -fx-font-weight: bold; -fx-cursor: hand;"/>
         </VBox>
-        <VBox alignment="CENTER" styleClass="stat-card">
-            <Label fx:id="pendingMilestonesLabel" text="0" styleClass="stat-number"/>
-            <Label text="Pending Milestones" styleClass="stat-label"/>
-        </VBox>
-        <VBox alignment="CENTER" styleClass="stat-card">
-            <ProgressBar fx:id="completionBar" progress="0" styleClass="progress-bar"/>
-            <Label fx:id="completionRateLabel" text="0%" styleClass="stat-number"/>
-            <Label text="Completion Rate" styleClass="stat-label"/>
-        </VBox>
-    </HBox>
+    </left>
 
-</VBox>
+    <center>
+        <StackPane fx:id="contentArea" style="-fx-background-color: #f4f6f8;">
+            <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+        </StackPane>
+    </center>
+
+</BorderPane>

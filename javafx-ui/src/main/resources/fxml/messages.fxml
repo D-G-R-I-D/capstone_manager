@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" alignment="CENTER" spacing="20" style="-fx-background-color: white;">
+    <Label text="Messages" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+    <Label text="Inbox functionality coming soon." style="-fx-text-fill: grey;"/>
+</VBox>

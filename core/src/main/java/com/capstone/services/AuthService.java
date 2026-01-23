@@ -16,7 +16,7 @@ public class AuthService {
         Optional<User> userOpt = userDAO.findByEmail(identifier);
 
         // Unwrap the Optional: Throw if no user found (for invalid identifier)
-        User user = userOpt.orElseThrow(() -> new AuthenticationException("Invalid username or email"));
+        User user = userOpt.orElseThrow(() -> new AuthenticationException("Invalid email"));
 
         // Now 'user' is a plain User object, so you can call its methods
         if (user == null) {

@@ -13,6 +13,8 @@ public class Milestone {
     private MilestoneStatus status; // NOT_STARTED, IN_PROGRESS, COMPLETED
     private String description;
     private List<Milestone> milestones = new ArrayList<>();
+    private boolean completed; // The status field
+    private boolean isInProgress;
 
     public Milestone() {}
 
@@ -42,6 +44,21 @@ public class Milestone {
     public MilestoneStatus getStatus() { return status; }
     public void setStatus(MilestoneStatus status) { this.status = status; }
 
+    public List<Milestone> getMilestones() {
+        return milestones;
+    }
+    public void setMilestones(List<Milestone> milestones) {
+        this.milestones = milestones;
+    }
+
+    public boolean isCompleted() {
+        return this.status == MilestoneStatus.COMPLETED;
+    }
+
+    // Optional: A helper to check if it's currently being worked on
+    public boolean isInProgress() {
+        return this.status == MilestoneStatus.IN_PROGRESS;
+    }
 }
 
 

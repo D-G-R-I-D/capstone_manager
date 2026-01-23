@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS capstone_manager;
 CREATE DATABASE IF NOT EXISTS capstone_manager;
 USE capstone_manager;
 
@@ -11,6 +12,19 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- PROJECTS TABLE
+CREATE TABLE projects (
+    id VARCHAR(50) PRIMARY KEY,
+    title VARCHAR(255),
+    student_id VARCHAR(50),
+    supervisor_id VARCHAR(50),
+    file_path VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('ACTIVE', 'APPROVED', 'COMPLETED', 'ON_HOLD', 'REJECTED') DEFAULT 'ACTIVE',
+
+    FOREIGN KEY (student_id) REFERENCES users(id),
+    FOREIGN KEY (supervisor_id) REFERENCES users(id)
+);
 
 CREATE TABLE milestones (
     id VARCHAR(36) PRIMARY KEY,
@@ -63,19 +77,6 @@ CREATE TABLE scorecards (
 );
 
 -- PROJECTS TABLE
-CREATE TABLE projects (
-    id VARCHAR(50) PRIMARY KEY,
-    title VARCHAR(255),
-    student_id VARCHAR(50),
-    supervisor_id VARCHAR(50),
-    file_path VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status ENUM('ACTIVE', 'APPROVED', 'COMPLETED', 'ON_HOLD', 'REJECTED') DEFAULT 'ACTIVE',
-
-    FOREIGN KEY (student_id) REFERENCES users(id),
-    FOREIGN KEY (supervisor_id) REFERENCES users(id)
-);
-
 -- PROPOSALS TABLE
 CREATE TABLE proposals (
     id VARCHAR(50) PRIMARY KEY,
@@ -122,5 +123,3 @@ CREATE TABLE logs (
      timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
      FOREIGN KEY (user_id) REFERENCES users(id)
  )ENGINE=InnoDB;
-
-

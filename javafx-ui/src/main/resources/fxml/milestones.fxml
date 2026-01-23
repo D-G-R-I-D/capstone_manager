@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="20" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.capstone.controllers.MilestoneController"
+      style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0); -fx-background-radius: 5;">
+
+    <padding><Insets top="30" right="30" bottom="30" left="30"/></padding>
+
+    <HBox alignment="CENTER_LEFT">
+        <Label text="Project Timeline &amp; Feedback" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+    </HBox>
+
+    <ScrollPane fitToWidth="true" style="-fx-background: white; -fx-border-color: transparent; -fx-background-color: transparent;">
+        <VBox fx:id="milestoneList" spacing="15" style="-fx-background-color: white;" />
+    </ScrollPane>
+</VBox>

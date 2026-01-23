@@ -4,12 +4,13 @@ import com.capstone.models.Comment;
 import com.capstone.utils.IdGenerator;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public class CommentService {
-    private final CommentDAO dao = new CommentDAO();
+    private final CommentDAO commentDAO = new CommentDAO();
 
-    public void add(String projectId, String authorId, String message, String parentId) {
+    public void add(String  projectId, String authorId, String message, String parentId) {
         Comment c = new Comment(
                 IdGenerator.generateId(),       //UUID.randomUUID().toString(),
                 projectId,
@@ -18,6 +19,14 @@ public class CommentService {
                 parentId,
                 LocalDateTime.now()
         );
-        dao.save(c);
+        commentDAO.save(c);
+    }
+
+    public List<Comment> getByProject(String projectId) {
+        return commentDAO.findByProject(projectId);
+    }
+
+    public void addComment(Comment comment) {
+        commentDAO.save(comment); // Matches your DAO's save method
     }
 }

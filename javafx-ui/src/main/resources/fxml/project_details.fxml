@@ -5,7 +5,7 @@
 
 <VBox spacing="15" alignment="CENTER" styleClass="details-container"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.capstone.controllers.ProjectDetailsController">
+      fx:controller="com.capstone.controllers.MyProjectsController">
 
     <Label fx:id="titleLabel" styleClass="title"/>
     <Label fx:id="statusLabel" styleClass="subtitle"/>

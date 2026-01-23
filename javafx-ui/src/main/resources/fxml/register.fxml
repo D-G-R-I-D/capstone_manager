@@ -69,11 +69,11 @@
 
     <VBox alignment="TOP_CENTER" HBox.hgrow="ALWAYS" styleClass="login-section">
 
-       <!-- <HBox alignment="TOP_RIGHT" spacing="10">
-            <padding><Insets top="10" right="10" bottom="0" left="0"/></padding>
-            <Button text="—" onAction="#handleMinimize" styleClass="window-control-btn"/>
-            <Button text="✕" onAction="#handleClose" styleClass="window-control-btn" id="close-btn"/>
-        </HBox>-->
+        <!-- <HBox alignment="TOP_RIGHT" spacing="10">
+             <padding><Insets top="10" right="10" bottom="0" left="0"/></padding>
+             <Button text="—" onAction="#handleMinimize" styleClass="window-control-btn"/>
+             <Button text="✕" onAction="#handleClose" styleClass="window-control-btn" id="close-btn"/>
+         </HBox>-->
 
         <VBox alignment="CENTER" spacing="25" VBox.vgrow="ALWAYS">
             <VBox fx:id="authContainer" prefHeight="500" alignment="CENTER" spacing="20" styleClass="authContainer">
@@ -83,6 +83,8 @@
                     <TextField fx:id="usernameField" promptText="Username" styleClass="glass-field"/>
                     <TextField fx:id="emailField" promptText="Email" styleClass="glass-field"/>
                     <PasswordField fx:id="passwordField" promptText="Password" styleClass="glass-field"/>
+                    <Region fx:id="strengthBar" prefHeight="2" maxWidth="0" style="-fx-background-radius: 2;"/>
+                    <Label fx:id="strengthLabel" style="-fx-text-fill: rgba(255,255,255,0.6); -fx-font-size: 10px;"/>
                     <ComboBox fx:id="roleChoice" promptText="Select Role" maxWidth="300" styleClass="glass-combo"/>
                 </VBox>
 

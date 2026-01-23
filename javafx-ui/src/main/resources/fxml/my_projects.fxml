@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="20" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.capstone.controllers.MyProjectsController"
+      style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0); -fx-background-radius: 5;">
+
+    <padding><Insets top="30" right="30" bottom="30" left="30"/></padding>
+
+    <HBox alignment="CENTER_LEFT" spacing="20">
+        <Label text="My Projects" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+        <Region HBox.hgrow="ALWAYS" />
+        <TextField fx:id="searchField" promptText="Search projects..." prefWidth="250"/>
+        <Button text="+ New Project" onAction="#handleNewProject"
+                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;"/>
+    </HBox>
+
+    <Label fx:id="taskCountLabel" text="Total Projects: 0" style="-fx-text-fill: grey;"/>
+
+    <TableView fx:id="projectTable" VBox.vgrow="ALWAYS" style="-fx-border-color: #eee;">
+        <columns>
+            <TableColumn fx:id="colName" text="Project Title" prefWidth="300"/>
+            <TableColumn fx:id="colStatus" text="Status" prefWidth="120"/>
+            <TableColumn fx:id="colDate" text="Date Created" prefWidth="150"/>
+            <TableColumn fx:id="colFile" text="File" prefWidth="80"/>
+            <TableColumn fx:id="colAction" text="Actions" prefWidth="180"/>
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+    </TableView>
+</VBox>

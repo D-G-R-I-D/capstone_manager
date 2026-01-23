@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -23,6 +24,8 @@ import java.util.Objects;
 
 public class ChangePasswordController {
 
+    @FXML private Region strengthBar;
+    @FXML private Label strengthLabel;
     @FXML HBox mainRoot;
     @FXML VBox authContainer;
     @FXML private ImageView backgroundImage;
@@ -30,7 +33,7 @@ public class ChangePasswordController {
     @FXML private TextField emailField;
     @FXML private PasswordField passwordField;
     @FXML private PasswordField confirmPasswordField;
-//    @FXML private ComboBox<Role> roleChoice;
+    //    @FXML private ComboBox<Role> roleChoice;
     @FXML private Label messageLabel;
     @FXML private Circle logoCircle;
 
@@ -78,11 +81,17 @@ public class ChangePasswordController {
             }
         });
 
+        passwordField.textProperty().addListener((observable, oldValue, newValue) -> {
+            updateStrengthMeter(newValue);
+        });
+
         confirmPasswordField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null || newValue.isEmpty()) {
                 passwordField.setStyle("-fx-font-weight: normal;");
+                confirmPasswordField.setStyle("-fx-font-weight: normal;");
             } else {
                 passwordField.setStyle("-fx-font-weight: bold;");
+                confirmPasswordField.setStyle("-fx-font-weight: bold;");
             }
         });
 
@@ -94,25 +103,79 @@ public class ChangePasswordController {
 //        roleChoice.setValue(Role.STUDENT); // can remove if not auto wanted on the page
     }
 
+    private void updateStrengthMeter(String password) {
+        if (password.isEmpty()) {
+            strengthBar.setMaxWidth(0);
+            strengthLabel.setText("");
+            strengthBar.setStyle("-fx-background-color: white;");
+        } else if (password.length() < 10 ) {
+            strengthBar.setMaxWidth(100);
+            strengthBar.setStyle("-fx-background-color: #ff4d4d;"); // Red
+            strengthLabel.setText("Weak");
+            strengthLabel.setStyle("-fx-text-fill: #ff4d4d");
+        } else if (password.length() < 12) {
+            strengthBar.setMaxWidth(200);
+            strengthBar.setStyle("-fx-background-color: #ffcc00;"); // Yellow
+            strengthLabel.setText("Fair");
+            strengthLabel.setStyle("-fx-text-fill: #ffcc00");
+        } else {
+            strengthBar.setMaxWidth(300);
+            strengthBar.setStyle("-fx-background-color: #2ecc71;"); // Green
+            strengthLabel.setText("Strong");
+            strengthLabel.setStyle("-fx-text-fill: #2ecc71");
+        }
+    }
+
     @FXML
     private void handlePasswordChange() {
-        if (passwordField.getText().equals(confirmPasswordField.getText())) {
-            try {
-                userService.changePassword(
-//                    usernameField.getText(),
-                        userService.getUserByEmail(emailField.getText()).getId(), // Or:  ->  String.valueOf(userService.getUserByEmail(emailField.getText()).getId())
-                        passwordField.getText()
-//                    roleChoice.getValue()
-                );
-                messageLabel.setText("Password changed successfully!");
-            } catch (Exception e) {
-                messageLabel.setText("! Password change failed");
+       /* if (emailField.getText().trim().isEmpty() && passwordField.getText().trim().isEmpty() && confirmPasswordField.getText().trim().isEmpty()) {
+            messageLabel.setText("Fields can not be empty");
+        }*/
+        if (!emailField.getText().trim().isEmpty()) {
+            if (emailField.getText().trim().matches("^(?i)[\\w-]+@[\\w-]+\\.[A-Za-z]{2,}$")) {
+                if (!passwordField.getText().trim().isEmpty()) {
+                    if (!confirmPasswordField.getText().trim().isEmpty()) {
+                        if (passwordField.getText().trim().matches("^.{5,64}$")) /*  Or -> (?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}*/ {
+                            if (confirmPasswordField.getText().trim().equals(passwordField.getText().trim())) try {
+                                userService.changePassword(
+//                                      usernameField.getText(),
+                                        userService.getUserByEmail(emailField.getText().trim()).getId(), // Or:  ->  String.valueOf(userService.getUserByEmail(emailField.getText()).getId())
+                                        passwordField.getText()
+//                                      roleChoice.getValue()
+                                );
+                                messageLabel.setText("Password changed successfully!");
+                                emailField.setText("");
+                                passwordField.setText("");
+                                confirmPasswordField.setText("");
+                            } catch (Exception e) {
+                                messageLabel.setText("! Password change failed: User doesn't exist");
+                                emailField.setText("");
+                                passwordField.setText("");
+                                confirmPasswordField.setText("");
+                            }
+                            else {
+                                messageLabel.setText("! Password doesn't match");
+                                passwordField.setText("");
+                                confirmPasswordField.setText("");
+                            }
+                        } else {
+                            messageLabel.setText("Password must be 12 or more characters");
+                            passwordField.setText("");
+                            confirmPasswordField.setText("");
+                        }
+                    } else {
+                        messageLabel.setText("! Confirm password");
+                    }
+                } else {
+                    messageLabel.setText("! Input New password");
+                }
+            } else {
+                messageLabel.setText("! Input a valid email");
+                emailField.setText("");
             }
+        } else {
+            messageLabel.setText("! Email field cannot be empty");
         }
-        else {
-            messageLabel.setText("! Password doesn't match");
-        }
-
     }
 
     @FXML

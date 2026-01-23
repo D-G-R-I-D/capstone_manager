@@ -3,36 +3,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
-import com.capstone.models.enums.*;
 import com.capstone.models.enums.ProjectStatus;
-
-//public class Project {
-//    private String id;
-//    private String proposalId;
-//    private String studentId;
-//    private String supervisorId;
-//    private String seniorSupervisorId;
-//    private String title;
-//    private String description;
-//    private ProjectStatus status; // PENDING, APPROVED, REJECTED, IN_PROGRESS, COMPLETED
-//    private LocalDateTime createdAt;
-//
-//    public Project() {}
-//
-//    public Project(String id, String proposalId, String studentId,
-//                   String supervisorId, String seniorSupervisorId,
-//                   String title, String description, ProjectStatus status,LocalDateTime createdAt) {
-//
-//        this.id = id;
-//        this.proposalId = proposalId;
-//        this.studentId = studentId;
-//        this.supervisorId = supervisorId;
-//        this.seniorSupervisorId = seniorSupervisorId;
-//        this.title = title;
-//        this.description = description;
-//        this.status = status;
-//        this.createdAt = createdAt;
-//    }
 
 public class Project {
     private String id;
@@ -47,14 +18,15 @@ public class Project {
 
 
     public Project(String id, String title, String studentId,
-                   String supervisorId, ProjectStatus status,
-                   LocalDateTime createdAt) {
+                   String supervisorId, String filePath,
+                   LocalDateTime createdAt, ProjectStatus status) {
         this.id = id;
         this.title = title;
         this.studentId = studentId;
         this.supervisorId = supervisorId;
-        this.status = status;
+        this.filePath = filePath;
         this.createdAt = createdAt;
+        this.status = status;
     }
 
 //}
@@ -84,7 +56,7 @@ public class Project {
     public void setStatus(ProjectStatus status) { this.status = status; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
-    void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
     public String getFilePath() { return filePath; }
 

@@ -1,23 +1,36 @@
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.Button?>
-<VBox spacing="10"
-      xmlns="http://javafx.com/javafx"
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="20" alignment="TOP_CENTER" styleClass="dashboard-container"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.capstone.controllers.SeniorSupervisorDashboardController">
+      fx:controller="com.capstone.controllers.SupervisorDashboardController">
 
-    <Label fx:id="welcomeLabel" styleClass="header"/>
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="20" styleClass="header-row">
+        <padding>
+            <Insets top="20" right="40" bottom="20" left="40"/>
+        </padding>
+        <Label fx:id="welcomeLabel" styleClass="title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Logout" onAction="#handleLogout" styleClass="secondary-button"/>
+    </HBox>
 
-    <TableView fx:id="projectTable">
-        <columns>
-            <TableColumn fx:id="titleCol" text="Project Title"/>
-            <TableColumn fx:id="supervisorCol" text="Supervisor"/>
-            <TableColumn fx:id="statusCol" text="Status"/>
-        </columns>
-    </TableView>
-
-    <Button text="Logout" onAction="#handleLogout"/>
-
+    <!-- Supervised Projects -->
+    <VBox spacing="12" styleClass="section">
+        <padding>
+            <Insets top="0" right="40" bottom="20" left="40"/>
+        </padding>
+        <Label text="Supervised Projects" styleClass="subtitle"/>
+        <TableView fx:id="projectTable" prefHeight="450">
+            <columns>
+                <TableColumn fx:id="titleCol" text="Project Title" prefWidth="450"/>
+                <TableColumn fx:id="statusCol" text="Status" prefWidth="150"/>
+                <TableColumn fx:id="studentCol" text="Student" prefWidth="200"/>
+                <TableColumn fx:id="actionsCol" text="Actions" prefWidth="150"/>
+            </columns>
+        </TableView>
+    </VBox>
 </VBox>
