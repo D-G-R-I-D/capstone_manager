@@ -3,6 +3,7 @@ package com.capstone.dao;
 //import javax.xml.stream.events.Comment;
 import com.capstone.models.Comment;
 import com.capstone.utils.DBConnection;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -66,7 +67,7 @@ public class CommentDAO implements CommentDAOinterface {
     }
 
     @Override
-    public boolean save(Comment c) {
+    public boolean save(@NotNull Comment c) {
         String sql = "INSERT INTO comments (id, project_id, author_id, message, created_at) VALUES (?,?,?,?,?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -80,7 +81,7 @@ public class CommentDAO implements CommentDAOinterface {
         return false;
     }
 
-    public boolean addComment(Comment c) {
+    public boolean addComment(@NotNull Comment c) {
         String sql = "INSERT INTO comments (id, project_id, author_id, message, parent_id, created_at) VALUES (?,?,?,?,?,?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {

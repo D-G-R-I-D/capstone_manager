@@ -29,3 +29,79 @@
 .welcome-text-large: hover {
  -fx-underline: true;
 }
+
+/*
+#welcomeLabel {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50
+}
+*/
+
+#welcomeLabel: hover {
+    -fx-underline: true;
+}
+
+#studentName: hover {
+ -fx-underline: true;
+ -fx-translate-y: -1.00;
+ -fx-translate-x: -1.00;
+}
+
+.nav-button {
+-fx-alignment: CENTER_LEFT;
+-fx-background-color: transparent;
+-fx-text-fill: white;
+-fx-font-size: 14px;
+-fx-cursor: hand;
+}
+
+.nav-button: hover {
+ -fx-underline: true;
+ -fx-translate-y: -1.00;
+ -fx-translate-x: -1.00;
+}
+
+.nav-button: pressed {
+ -fx-underline: true;
+}
+
+.nav-button: selected {
+ -fx-underline: true;
+}
+
+.rejected: {
+ -fx-background-color: #cc2e33;
+ -fx-padding: 20;
+ -fx-background-radius: 10;
+ -fx-min-width: 200;
+}
+
+.rejected: hover {
+ -fx-translate-y: -1.00;
+ -fx-translate-x: -1.00;
+}
+
+.active-projects: {
+ -fx-background-color: #3498db;
+ -fx-padding: 20;
+ -fx-background-radius: 10;
+ -fx-min-width: 200;
+}
+
+.active-projects: hover {
+ -fx-translate-y: -1.00;
+ -fx-translate-x: -1.00;
+}
+
+.pending: {
+ -fx-background-color: #f1c40f;
+ -fx-padding: 20;
+ -fx-background-radius: 10;
+ -fx-min-width: 200;
+}
+
+.pending: hover {
+ -fx-translate-y: -1.00;
+ -fx-translate-x: -1.00;
+}

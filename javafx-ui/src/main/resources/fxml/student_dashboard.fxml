@@ -21,14 +21,17 @@
             <Separator opacity="0.1"/>
 
             <VBox spacing="10">
-                <Button text="Dashboard Home" onAction="#handleDashboardNav" maxWidth="Infinity"
-                        style="-fx-alignment: CENTER_LEFT; -fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px; -fx-cursor: hand;"/>
+                <fx:define>
+                    <ToggleGroup fx:id="navGroup"/>
+                </fx:define>
+                <ToggleButton text="Dashboard Home" onAction="#handleDashboardNav" maxWidth="Infinity"
+                       styleClass="nav-button" toggleGroup="$navGroup"/>
 
-                <Button text="My Projects" onAction="#handleProjectDetailsNav" maxWidth="Infinity"
-                        style="-fx-alignment: CENTER_LEFT; -fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px; -fx-cursor: hand;"/>
+                <ToggleButton text="My Projects" onAction="#handleProjectDetailsNav" maxWidth="Infinity"
+                        styleClass="nav-button" toggleGroup="$navGroup"/>
 
-                <Button text="Milestones" onAction="#handleMilestonesNav" maxWidth="Infinity"
-                        style="-fx-alignment: CENTER_LEFT; -fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px; -fx-cursor: hand;"/>
+                <ToggleButton text="Milestones" onAction="#handleMilestonesNav" maxWidth="Infinity"
+                        styleClass="nav-button" toggleGroup="$navGroup"/>
             </VBox>
 
             <Region VBox.vgrow="ALWAYS" />
