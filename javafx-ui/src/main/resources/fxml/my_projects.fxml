@@ -21,6 +21,7 @@
 
     <TableView fx:id="projectTable" VBox.vgrow="ALWAYS" style="-fx-border-color: #eee;">
         <columns>
+            <TableColumn fx:id="numCol" text="#" prefWidth="40"/>
             <TableColumn fx:id="colName" text="Project Title" prefWidth="300"/>
             <TableColumn fx:id="colStatus" text="Status" prefWidth="120"/>
             <TableColumn fx:id="colDate" text="Date Created" prefWidth="150"/>
@@ -28,7 +29,7 @@
             <TableColumn fx:id="colAction" text="Actions" prefWidth="180"/>
         </columns>
         <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN"/>
         </columnResizePolicy>
     </TableView>
 </VBox>

@@ -7,6 +7,7 @@ import com.capstone.models.enums.Role;
 import com.capstone.services.ProjectService;
 import com.capstone.services.UserService;
 import com.capstone.utils.Session;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,11 +29,13 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 public class MyProjectsController {
 
     @FXML private TableView<Project> projectTable;
+    @FXML private TableColumn<Project, String> numCol;
     @FXML private TableColumn<Project, String> colName;
     @FXML private TableColumn<Project, ProjectStatus> colStatus; // Kept as ProjectStatus
     @FXML private TableColumn<Project, LocalDateTime> colDate;
@@ -50,12 +53,13 @@ public class MyProjectsController {
 
     @FXML
     public void initialize() {
-        // 1. Basic Column Mapping
+        // 1. Column Mapping
+        // Numbering
+        numCol.setCellValueFactory(column -> new ReadOnlyObjectWrapper<>(projectTable.getItems().indexOf(column.getValue()) + 1 + ""));
+        numCol.setSortable(false);
         colName.setCellValueFactory(new PropertyValueFactory<>("title"));
-
         // FIX: Handle the Enum display correctly
         colStatus.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getStatus()));
-
         colDate.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
 
         // 2. Custom Cell Factories
@@ -64,7 +68,11 @@ public class MyProjectsController {
 
         // 3. Load Data
         refreshData();
+        setupSearchFilter();
+        projectTable.setItems(filteredData);
+    }
 
+    private void setupSearchFilter() {
         // 4. Search Filter Logic
         filteredData = new FilteredList<>(projectList, p -> true);
         searchField.textProperty().addListener((obs, old, newValue) -> {
@@ -72,16 +80,17 @@ public class MyProjectsController {
                 if (newValue == null || newValue.isEmpty()) return true;
                 String filter = newValue.toLowerCase();
                 return project.getTitle().toLowerCase().contains(filter) ||
-                        project.getStatus().toString().toLowerCase().contains(filter);
+                        project.getStatus().toString().toLowerCase().contains(filter) ||
+                        project.getCreatedAt().toString().toLowerCase().contains(filter);
             });
             updateTaskCount();
         });
-
         projectTable.setItems(filteredData);
     }
 
     private void refreshData() {
-        projectList.setAll(projectService.getProjectsForStudent(Session.getUser().getId()));
+        User student = Session.getUser();
+        projectList.setAll(projectService.getProjectsForStudent(student.getId()));
         updateTaskCount();
     }
 
@@ -89,7 +98,7 @@ public class MyProjectsController {
         colFile.setCellFactory(param -> new TableCell<>() {
             private final Button btn = new Button("📁");
             {
-                btn.getStyleClass().add("glass-button-small");
+                btn.setStyle("-fx-background-color: transparent; -fx-text-fill: #2c3e50; -fx-cursor: hand; -fx-alignment: CENTER; ");
                 btn.setOnAction(e -> openFile(getTableView().getItems().get(getIndex()).getFilePath()));
             }
             @Override
@@ -106,7 +115,7 @@ public class MyProjectsController {
 
     private void setupActionButtonsColumn() {
         colAction.setCellFactory(param -> new TableCell<>() {
-            private final Button viewBtn = new Button("View");
+            private final Button viewBtn = new Button("View / Timeline");
             private final Button deleteBtn = new Button("Delete");
             private final HBox container = new HBox(10, viewBtn, deleteBtn);
             {
@@ -118,9 +127,24 @@ public class MyProjectsController {
 
                 deleteBtn.setOnAction(e -> {
                     Project p = getTableView().getItems().get(getIndex());
-                    projectService.deleteProject(p.getId());
-                    projectList.remove(p);
-                    updateTaskCount();
+
+                    // Create the Confirmation Alert
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Delete Project");
+                    alert.setHeaderText("Are you sure you want to delete: " + p.getTitle() + "?");
+                    alert.setContentText("This action cannot be undone.");
+                    // Show the dialog and wait for the user to click a button
+                    Optional<ButtonType> result = alert.showAndWait();
+
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        // 1. Delete from Database
+                        projectService.deleteProject(p.getId());
+
+                        // 2. Remove from UI list
+                        projectList.remove(p);
+                        updateTaskCount();
+                        refreshData(); // Refresh list properly
+                    }
                 });
             }
             @Override
