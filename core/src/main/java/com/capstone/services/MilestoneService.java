@@ -4,6 +4,7 @@ import com.capstone.models.Milestone;
 import com.capstone.models.enums.MilestoneStatus;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 public class MilestoneService {
@@ -20,4 +21,8 @@ public class MilestoneService {
         dao.save(m);
     }
 
+    public List<Milestone> getByProject(String projectId) {
+        dao.findByProject(projectId);
+        return null;
+    }
 }

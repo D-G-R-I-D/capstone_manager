@@ -8,6 +8,7 @@ import com.capstone.utils.IdGenerator;
 import com.capstone.utils.Session;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -53,7 +54,18 @@ public class ProjectService {
             p.setStatus(ProjectStatus.ACTIVE);
             projectDAO.update(p);
             // Optional: Create default milestones here if needed
+            createDefaultMilestones(projectId);
         }
+    }
+    private void createDefaultMilestones(String projectId) {
+        // Create 4 standard milestones for every new project
+
+        MilestoneService milestoneService = new MilestoneService();
+
+        milestoneService.create(projectId,  "Chapter 1: Introduction & Proposal", LocalDate.now().plusWeeks(2));
+        milestoneService.create(projectId, "Chapter 2: Literature Review", LocalDate.now().plusWeeks(4));
+        milestoneService.create(projectId, "Chapter 3: System Design & Methodology", LocalDate.now().plusWeeks(6));
+        milestoneService.create(projectId, "Final Implementation & Testing", LocalDate.now().plusWeeks(10));
     }
 
     public void rejectProject(String projectId, String reason) {

@@ -105,3 +105,28 @@
  -fx-translate-y: -1.00;
  -fx-translate-x: -1.00;
 }
+
+.view-button {
+    -fx-background-color: #3498db;
+}
+
+.view-button:hover {
+    -fx-background-color: #5dade2; /* Lighter shade on hover */
+    -fx-translate-y: -1;
+}
+
+/* Delete Button - A 'Danger' Red */
+.delete-button {
+    -fx-background-color: #e74c3c;
+}
+
+.delete-button:hover {
+    -fx-background-color: #ec7063; /* Lighter shade on hover */
+    -fx-translate-y: -1;
+}
+
+/* Press effect for both */
+.view-button:armed, .delete-button:armed {
+    -fx-scale-x: 0.95;
+    -fx-scale-y: 0.95;
+}

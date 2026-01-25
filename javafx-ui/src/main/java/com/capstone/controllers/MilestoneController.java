@@ -144,7 +144,7 @@ public class MilestoneController {
         }
     }
 
-    public void setMilestones(List<Milestone> milestones) {
+    public void setMilestones(@NotNull List<Milestone> milestones) {
         milestoneList.getChildren().clear();
 
         for (Milestone m : milestones) {
