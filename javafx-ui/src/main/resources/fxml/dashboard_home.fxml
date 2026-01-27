@@ -26,16 +26,6 @@
                 <Label fx:id="rejectedCountLabel" text="0" style="-fx-text-fill: white; -fx-font-size: 36px; -fx-font-weight: bold;"/>
             </VBox>
 
-            <VBox fx:id="activeBox"
-                  onMouseEntered="#handleHover"
-                  onMouseExited="#handleExit"
-                  style="-fx-background-color: rgba(52, 152, 219, 0.9); -fx-padding: 20; -fx-background-radius: 10;
-            -fx-min-width: 200; -fx-border-color: rgba(255, 255, 255, 0.3); -fx-border-width: 1; -fx-border-radius: 10;
-            -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 5);">
-                <Label text="Active Projects" style="-fx-text-fill: rgba(255,255,255,0.8); -fx-font-size: 14px;"/>
-                <Label fx:id="activeCountLabel" text="0" style="-fx-text-fill: white; -fx-font-size: 36px; -fx-font-weight: bold;"/>
-            </VBox>
-
             <VBox fx:id="pendingBox"
                   onMouseEntered="#handleHover"
                   onMouseExited="#handleExit"
@@ -44,6 +34,16 @@
             -fx-border-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 5);">
                 <Label text="Pending Approval" style="-fx-text-fill: rgba(255,255,255,0.8); -fx-font-size: 14px;"/>
                 <Label fx:id="pendingCountLabel" text="0" style="-fx-text-fill: white; -fx-font-size: 36px; -fx-font-weight: bold;"/>
+            </VBox>
+
+            <VBox fx:id="activeBox"
+                  onMouseEntered="#handleHover"
+                  onMouseExited="#handleExit"
+                  style="-fx-background-color: rgba(52, 152, 219, 0.9); -fx-padding: 20; -fx-background-radius: 10;
+            -fx-min-width: 200; -fx-border-color: rgba(255, 255, 255, 0.3); -fx-border-width: 1; -fx-border-radius: 10;
+            -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 5);">
+                <Label text="Active Projects" style="-fx-text-fill: rgba(255,255,255,0.8); -fx-font-size: 14px;"/>
+                <Label fx:id="activeCountLabel" text="0" style="-fx-text-fill: white; -fx-font-size: 36px; -fx-font-weight: bold;"/>
             </VBox>
 
             <VBox fx:id="completedBox"
@@ -73,7 +73,9 @@
 
             <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-border-color: #eee; -fx-border-radius: 10; -fx-padding: 15;">
                 <Label text="Milestones: Planned vs Completed" style="-fx-font-weight: bold; -fx-text-fill: #555;"/>
-                <BarChart fx:id="milestoneBarChart" maxHeight="300">
+                <BarChart fx:id="milestoneBarChart"
+                          onMouseEntered="#handlePieHover"
+                          onMouseExited="#handlePieHoverExit" maxHeight="300">
                     <xAxis><CategoryAxis label="Projects" /></xAxis>
                     <yAxis><NumberAxis label="Count" /></yAxis>
                 </BarChart>

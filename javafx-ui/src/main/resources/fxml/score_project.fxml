@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox alignment="CENTER" spacing="20" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.capstone.controllers.ScoreProjectController"
+      style="-fx-background-color: white; -fx-padding: 30;">
+
+    <Label fx:id="projectTitleLabel" text="Grade Project" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+    <Separator/>
+
+    <VBox spacing="5" maxWidth="300">
+        <Label text="Technical Depth (0-20)" style="-fx-font-weight: bold;"/>
+        <Slider fx:id="technicalSlider" min="0" max="20" majorTickUnit="5" showTickMarks="true" showTickLabels="true"/>
+    </VBox>
+
+    <VBox spacing="5" maxWidth="300">
+        <Label text="Problem Solving (0-20)" style="-fx-font-weight: bold;"/>
+        <Slider fx:id="problemSlider" min="0" max="20" majorTickUnit="5" showTickMarks="true" showTickLabels="true"/>
+    </VBox>
+
+    <VBox spacing="5" maxWidth="300">
+        <Label text="Presentation (0-20)" style="-fx-font-weight: bold;"/>
+        <Slider fx:id="presentationSlider" min="0" max="20" majorTickUnit="5" showTickMarks="true" showTickLabels="true"/>
+    </VBox>
+
+    <VBox spacing="5" maxWidth="300">
+        <Label text="Design &amp; UI (0-20)" style="-fx-font-weight: bold;"/>
+        <Slider fx:id="designSlider" min="0" max="20" majorTickUnit="5" showTickMarks="true" showTickLabels="true"/>
+    </VBox>
+
+    <Separator/>
+    <Label fx:id="totalLabel" text="Total Score: 0 / 80" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #3498db;"/>
+
+    <Button fx:id="saveBtn" text="Submit Grade &amp; Complete" onAction="#handleSave"
+            style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-cursor: hand;"/>
+
+</VBox>

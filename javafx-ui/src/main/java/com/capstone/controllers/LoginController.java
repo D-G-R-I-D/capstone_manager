@@ -93,7 +93,7 @@ public class LoginController {
                 case ADMIN -> "/fxml/admin_dashboard.fxml";
                 case STUDENT -> "/fxml/student_dashboard.fxml";
                 case SUPERVISOR -> "/fxml/supervisor_dashboard.fxml";
-                case SENIOR_SUPERVISOR -> "/fxml/senior_supervisor_dashboard.fxml";
+//                case SENIOR_SUPERVISOR -> "/fxml/senior_supervisor_dashboard.fxml";
             };
 
 //            // 2. ROUTING LOGIC (The Fix)
@@ -132,7 +132,7 @@ public class LoginController {
                     case ADMIN -> "ADMIN DASHBOARD";
                     case STUDENT -> "STUDENT DASHBOARD";
                     case SUPERVISOR -> "SUPERVISOR DASHBOARD";
-                    case SENIOR_SUPERVISOR -> "SENIOR_SUPERVISOR DASHBOARD";
+//                    case SENIOR_SUPERVISOR -> "SENIOR_SUPERVISOR DASHBOARD";
                 };
                 stage.setTitle(titleText);
             }

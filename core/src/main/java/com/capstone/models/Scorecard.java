@@ -1,5 +1,4 @@
 package com.capstone.models;
-import com.capstone.models.enums.*;
 import com.capstone.models.enums.Role;
 
 import java.time.LocalDateTime;
@@ -9,25 +8,24 @@ public class Scorecard {
     private String projectId;
     private String gradedBy;
     private Role role; // SUPERVISOR, SENIOR_SUPERVISOR, ADMIN
-    private boolean override;
-
-
     private int technicalDepth;
     private int problemSolving;
     private int presentation;
     private int design;
     private int totalScore;
-
+    private final boolean override;
     private LocalDateTime gradedAt;
 
     public Scorecard(String id, String projectId, String gradedBy, Role role,
-                     int technicalDepth, int problemSolving, int presentation,
+                     boolean override, int technicalDepth, int problemSolving,
+                     int presentation,
                      int design, int totalScore, LocalDateTime gradedAt) {
 
         this.id = id;
         this.projectId = projectId;
         this.gradedBy = gradedBy;
         this.role = role;
+        this.override = override;
         this.technicalDepth = technicalDepth;
         this.problemSolving = problemSolving;
         this.presentation = presentation;
@@ -67,5 +65,5 @@ public class Scorecard {
     public LocalDateTime getGradedAt() { return gradedAt; }
     public void setGradedAt(LocalDateTime gradedAt) { this.gradedAt = gradedAt; }
 
-    public void setOverride(boolean b) {b = true; }
+    public boolean isOverride() { return override; }
 }

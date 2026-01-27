@@ -163,7 +163,7 @@ public class MainApp extends Application {
             case ADMIN -> "/fxml/admin_dashboard.fxml";
             case STUDENT -> "/fxml/student_dashboard.fxml";
             case SUPERVISOR -> "/fxml/supervisor_dashboard.fxml";
-            case SENIOR_SUPERVISOR -> "/fxml/senior_supervisor_dashboard.fxml";
+//            case SENIOR_SUPERVISOR -> "/fxml/senior_supervisor_dashboard.fxml";
         };
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));

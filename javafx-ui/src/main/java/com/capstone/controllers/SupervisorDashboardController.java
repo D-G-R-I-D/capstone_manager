@@ -15,6 +15,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -69,7 +70,7 @@ public class SupervisorDashboardController {
     private void loadData() {
         User supervisor = Session.getUser();
         projectList.setAll(projectService.getProjectsForSupervisor(supervisor.getId()));
-        projectTable.setItems(projectList);
+//        projectTable.setItems(projectList);
     }
 
     private void setupSearchFilter() {
@@ -133,12 +134,21 @@ public class SupervisorDashboardController {
             private final Button approveBtn = new Button("✓");
             private final Button rejectBtn = new Button("✕");
             private final Button commentBtn = new Button("💬");
-            private final HBox container = new HBox(5, approveBtn, rejectBtn, commentBtn);
+            private final Button scoreBtn = new Button("★"); // The Score Button
+            private final HBox containerPending = new HBox(5, approveBtn, rejectBtn, commentBtn);
+            private final HBox containerActive = new HBox(5, scoreBtn, commentBtn); // Ac
 
             {
-                approveBtn.setStyle("-fx-background-color: #2ecc71; -fx-text-fill: white;");
-                rejectBtn.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
-                commentBtn.setStyle("-fx-background-color: #0096c9; -fx-text-fill: white;");
+
+                // *** THE FIX: CENTER THE BUTTONS ***
+                containerPending.setAlignment(Pos.CENTER);
+                containerActive.setAlignment(Pos.CENTER);
+
+                approveBtn.setStyle("-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-cursor: hand;");
+                rejectBtn.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-cursor: hand;");
+                commentBtn.setStyle("-fx-background-color: #0096c9; -fx-text-fill: white; -fx-cursor: hand;");
+                scoreBtn.setStyle("-fx-background-color: #f1c40f; -fx-text-fill: white; -fx-font-size: 14px; -fx-cursor: hand;");
+                scoreBtn.setTooltip(new Tooltip("Grade & Complete Project"));
 
                 approveBtn.setOnAction(e -> {
                     Project p = getTableView().getItems().get(getIndex());
@@ -181,6 +191,8 @@ public class SupervisorDashboardController {
                 });
 
                 commentBtn.setOnAction(e -> handleAddComment(getTableView().getItems().get(getIndex())));
+                // SCORE ACTION: Opens the popup
+                scoreBtn.setOnAction(e -> handleScoreProject(getTableView().getItems().get(getIndex())));
             }
 
             @Override
@@ -191,14 +203,41 @@ public class SupervisorDashboardController {
                 } else {
                     Project p = getTableView().getItems().get(getIndex());
                     if (p.getStatus() == ProjectStatus.PENDING) {
-                        setGraphic(container);
+                        setGraphic(containerPending);
+                    }// IF ACTIVE: Show Score Button (The Star)
+                    else if (p.getStatus() == ProjectStatus.ACTIVE) {
+                        setGraphic(containerActive);
                     } else {
                         // Only show comment button if already active
-                        setGraphic(commentBtn);
+                        commentBtn.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-cursor: hand;");
+                        HBox centerBox = new HBox(commentBtn);
+                        centerBox.setAlignment(Pos.CENTER);
+                        setGraphic(centerBox);
                     }
                 }
             }
         });
+    }
+
+    //Helper Method to open the popup
+    private void handleScoreProject(Project project) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/score_project.fxml"));
+            Parent root = loader.load();
+
+            ScoreProjectController controller = loader.getController();
+            controller.setProject(project); // Pass project to popup
+
+            Stage stage = new Stage();
+            stage.setTitle("Grade Project: " + project.getTitle());
+            stage.setScene(new Scene(root));
+            stage.setWidth(250);
+            stage.showAndWait(); // Wait for supervisor to finish grading
+
+            loadData(); // Refresh table to show it moved to COMPLETED
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void handleAddComment(Project project) {

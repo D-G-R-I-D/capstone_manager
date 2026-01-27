@@ -14,10 +14,10 @@ public class ScorecardDAO implements ScoreCardDAOinterface {
     public boolean save(Scorecard s) {
         String sql = """
             INSERT INTO scorecards
-            (id, project_id, graded_by, role,
+            (id, project_id, graded_by, role, override,
              technical_depth, problem_solving,
-             presentation, design, total_score)
-            VALUES (?,?,?,?,?,?,?,?,?)
+             presentation, design, total_score, graded_at)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?)
         """;
 
         try (Connection c = DBConnection.getConnection();
@@ -27,12 +27,13 @@ public class ScorecardDAO implements ScoreCardDAOinterface {
             ps.setString(2, s.getProjectId());
             ps.setString(3, s.getGradedBy());
             ps.setString(4, s.getRole().name()); //(String.valueOf(s.getRole()));*****************
-            ps.setInt(5, s.getTechnicalDepth());
-            ps.setInt(6, s.getProblemSolving());
-            ps.setInt(7, s.getPresentation());
-            ps.setInt(8, s.getDesign());
-            ps.setInt(9, s.getTotalScore());
-            ps.setTimestamp(10, Timestamp.valueOf(s.getGradedAt()));  // ← Add this
+            ps.setBoolean(5, s.isOverride());
+            ps.setInt(6, s.getTechnicalDepth());
+            ps.setInt(7, s.getProblemSolving());
+            ps.setInt(8, s.getPresentation());
+            ps.setInt(9, s.getDesign());
+            ps.setInt(10, s.getTotalScore());
+            ps.setTimestamp(11, Timestamp.valueOf(s.getGradedAt()));  // ← Add this
 
             return ps.executeUpdate() == 1;
 
@@ -110,6 +111,7 @@ public class ScorecardDAO implements ScoreCardDAOinterface {
                 rs.getString("project_id"),
                 rs.getString("graded_by"),
                 Role.valueOf(rs.getString("role")),
+                rs.getBoolean(rs.getString("override")),
                 rs.getInt("technical_depth"),
                 rs.getInt("problem_solving"),
                 rs.getInt("presentation"),

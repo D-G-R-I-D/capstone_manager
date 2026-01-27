@@ -76,8 +76,8 @@ public class RegisterController {
 
         roleChoice.getItems().addAll(
                 Role.STUDENT,
-                Role.SUPERVISOR,
-                Role.SENIOR_SUPERVISOR
+                Role.SUPERVISOR
+//                Role.SENIOR_SUPERVISOR
         );
         roleChoice.setValue(Role.STUDENT); // can remove if not auto wanted on the page
     }

@@ -101,20 +101,24 @@ public class ProjectService {
     // 4. SCORING & UTILITIES
     // ==========================================
 
-    public void scoreProject(String projectId, int totalScore) {
-        Scorecard scorecard = new Scorecard(
-                IdGenerator.generateId(),
-                projectId,
-                Session.getUser().getId(),
-                Session.getUser().getRole(),
-                0, 0, 0, 0,
-                totalScore,
-                LocalDateTime.now()
-        );
-        if (!scorecardDAO.save(scorecard)) {
-            throw new RuntimeException("Failed to save score");
-        }
-    }
+//    public void scoreProject(@NotNull String projectId, int tech, int problem,
+//                                        int presentation, int design, int totalScore) {
+//        Scorecard scorecard = new Scorecard(
+//                IdGenerator.generateId(),
+//                projectId,
+//                Session.getUser().getId(),
+//                Session.getUser().getRole(),
+//                tech,
+//                problem,
+//                presentation,
+//                design,
+//                totalScore,
+//                LocalDateTime.now()
+//        );
+//        if (!scorecardDAO.save(scorecard)) {
+//            throw new RuntimeException("Failed to save scorecard");
+//        }
+//    }
 
     public void updateMilestoneStatus(String milestoneId, MilestoneStatus newStatus) {
         milestoneDAO.updateMilestoneStatus(milestoneId, newStatus);

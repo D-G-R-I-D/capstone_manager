@@ -7,15 +7,19 @@ import com.capstone.models.enums.ProjectStatus;
 import com.capstone.services.MilestoneService;
 import com.capstone.services.ProjectService;
 import com.capstone.utils.Session;
+import javafx.animation.ScaleTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -75,9 +79,22 @@ public class DashboardHomeController {
             if (rejected > 0) pieData.add(new PieChart.Data("Rejected", rejected));
             */
 
-            if (statusPieChart != null) statusPieChart.setData(pieData);
+            if (statusPieChart != null)
+                statusPieChart.setData(pieData);
             assert statusPieChart != null;
             statusPieChart.setData(pieData);
+
+            // APPLY COLORS AFTER DATA IS SET
+            for (PieChart.Data data : statusPieChart.getData()) {
+                String status = data.getName();
+                switch (status) {
+                    case "Active" -> data.getNode().setStyle("-fx-pie-color: #3498db;");    // Blue
+                    case "Pending" -> data.getNode().setStyle("-fx-pie-color: #f1c40f;");   // Yellow
+                    case "Completed" -> data.getNode().setStyle("-fx-pie-color: #2ecc71;"); // Green
+                    case "Rejected" -> data.getNode().setStyle("-fx-pie-color: #e74c3c;");  // Red
+                }
+            }
+
 
             // 4. Populate Bar Chart (Milestones)
             XYChart.Series<String, Number> seriesPlanned = new XYChart.Series<>();
@@ -86,24 +103,119 @@ public class DashboardHomeController {
             XYChart.Series<String, Number> seriesDone = new XYChart.Series<>();
             seriesDone.setName("Completed");
 
+            boolean hasData = false;
             for (Project p : myProjects) {
-                if (p.getStatus() == ProjectStatus.ACTIVE) {
+                if (p.getStatus() == ProjectStatus.ACTIVE || p.getStatus() == ProjectStatus.COMPLETED) {
                     // Fetch milestones for this project
                     List<Milestone> mList = milestoneService.getByProject(p.getId());
+
+                    if (mList.isEmpty()) continue;
                     long doneCount = mList.stream().filter(m -> m.getStatus() == MilestoneStatus.COMPLETED).count();
                     long pendingCount = mList.stream().filter(m -> m.getStatus() != MilestoneStatus.PENDING).count();
 
                     System.out.println("DEBUG: Active=" + active + ", Pending=" + pending + ", Completed=" + completed);
                     seriesPlanned.getData().add(new XYChart.Data<>(p.getTitle(), pendingCount));
                     seriesDone.getData().add(new XYChart.Data<>(p.getTitle(), doneCount));
+                    hasData = true;
                 }
             }
-            if (milestoneBarChart != null && !seriesPlanned.getData().isEmpty()) {
-                milestoneBarChart.getData().addAll(Arrays.asList(seriesPlanned, seriesDone));
+            if (milestoneBarChart != null) {
+                milestoneBarChart.getData().clear();
+                milestoneBarChart.setAnimated(false); // Fixes rendering bugs on reload
+                if (hasData) {
+                    milestoneBarChart.getData().addAll(Arrays.asList(seriesPlanned, seriesDone));
+                }
             }
         } catch (Exception e) {
             System.err.println("Dashboard Initialization Error: " + e.getMessage());
             e.printStackTrace();
+        }
+
+
+        for (PieChart.Data data : statusPieChart.getData()) {
+            // Listen for when the visual Node is created/re-created
+            data.nodeProperty().addListener((obs, oldNode, newNode) -> {
+                if (newNode != null) {
+                    handlePieHover();
+                    handlePieHoverExit();
+                }
+            });
+
+            // Also run it immediately in case the node already exists
+            if (data.getNode() != null) {
+                handlePieHover();
+                handlePieHoverExit();
+            }
+        }
+
+    }
+
+    @FXML
+    private void handlePieHover() {
+        // 1. Calculate the total sum of all pie slice values
+        double total = statusPieChart.getData().stream()
+                .mapToDouble(PieChart.Data::getPieValue)
+                .sum();
+        // Iterate through each data point in your PieChart
+        for (PieChart.Data data : statusPieChart.getData()) {
+            Node sliceNode = data.getNode();
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(200), sliceNode);
+
+            // 1. Handle Mouse Hover Entrance
+            sliceNode.addEventHandler(MouseEvent.MOUSE_ENTERED, _ -> {
+                // 1. Define the Scale Transition
+                scaleTransition.setToX(1.1); // Scale to 110% of original size
+                scaleTransition.setToY(1.1);
+                scaleTransition.playFromStart();
+                sliceNode.setStyle("-fx-cursor: hand;"); // Change cursor to a hand pointer
+                // Optional: show a tooltip or update a label with the value
+//                System.out.println("Hovering over: " + data.getName());
+
+                // Calculate percentage (e.g., 25.5%)
+                double percentage = (data.getPieValue() / total) * 100;
+                // Create a formatted string for the tooltip
+                String tooltipText = String.format("%s: %.1f%%", data.getName(), percentage);
+                Tooltip tooltip = new Tooltip(tooltipText);
+                // Install it onto the data's node
+                Tooltip.install(data.getNode(), tooltip);
+                // Optional: Add a listener so the tooltip updates if data values change
+                data.pieValueProperty().addListener((obs, oldVal, newVal) ->
+//                    tooltip.setText(data.getName() + ": " + newVal)
+                                tooltip.setText(tooltipText)
+                );
+                tooltip.setShowDelay(Duration.millis(200));
+
+                String status = data.getName();
+                switch (status) {
+                    case "Active" -> data.getNode().setStyle("-fx-pie-color: #3498db;");    // Blue
+                    case "Pending" -> data.getNode().setStyle("-fx-pie-color: #f1c40f;");   // Yellow
+                    case "Completed" -> data.getNode().setStyle("-fx-pie-color: #2ecc71;"); // Green
+                    case "Rejected" -> data.getNode().setStyle("-fx-pie-color: #e74c3c;");  // Red
+                }
+            });
+        }
+    }
+
+    @FXML private void handlePieHoverExit() {
+        // Iterate through each data point in your PieChart
+        for (PieChart.Data data : statusPieChart.getData()) {
+            Node sliceNode = data.getNode();
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(200), sliceNode);
+
+            // 3. Add Mouse Exit Event Handler
+            sliceNode.addEventHandler(MouseEvent.MOUSE_EXITED, _ -> {
+                scaleTransition.setToX(1.0); // Return to 100% (original size)
+                scaleTransition.setToY(1.0);
+                scaleTransition.playFromStart();
+
+                String status = data.getName();
+                switch (status) {
+                    case "Active" -> data.getNode().setStyle("-fx-pie-color: #3498db;");    // Blue
+                    case "Pending" -> data.getNode().setStyle("-fx-pie-color: #f1c40f;");   // Yellow
+                    case "Completed" -> data.getNode().setStyle("-fx-pie-color: #2ecc71;"); // Green
+                    case "Rejected" -> data.getNode().setStyle("-fx-pie-color: #e74c3c;");  // Red
+                }
+            });
         }
     }
 
