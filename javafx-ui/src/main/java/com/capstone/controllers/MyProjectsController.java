@@ -24,6 +24,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -196,7 +197,7 @@ public class MyProjectsController {
         popup.show();
     }
 
-    private void processProjectCreation(String title, String email, Stage stage) {
+    private void processProjectCreation(@NotNull String title, String email, Stage stage) {
         if (title.isEmpty() || email.isEmpty()) return;
 
         UserService userService = new UserService();
@@ -245,6 +246,7 @@ public class MyProjectsController {
             Parent root = loader.load();
 
             MilestoneController controller = loader.getController();
+            System.out.println("DEBUG: Opening project " + selected.getId());
             // FIX: Pass the Project ID to fetch milestones
             controller.initData(selected.getId());
 

@@ -11,8 +11,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
@@ -28,12 +30,15 @@ public class StudentDashboardController {
 
     @FXML
     public void initialize() {
+        Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/profilepic.jpeg")));
+        profileCircle.setFill(new ImagePattern(img));
         // Guard.require(Role.STUDENT); // Uncomment if Guard is active
         User student = Session.getUser();
         if (student != null) {
             studentName.setText(student.getUsername());
         }
         handleDashboardNav(); // Load default view
+
     }
 
     @FXML

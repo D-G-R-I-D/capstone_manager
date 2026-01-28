@@ -34,6 +34,12 @@ public class MilestoneController {
 
     // Use this method to initialize data based on Project ID
     public void initData(String projectId) {
+        System.out.println("DEBUG: MilestoneController initialized with Project ID: " + projectId);
+        this.currentProjectId = projectId;
+        if (projectId == null) {
+            System.err.println("ERROR: Project ID is NULL. Cannot load data.");
+            return;
+        }
         // Fetch from DB using DAO or Service
         List<Milestone> milestones = milestoneDAO.findByProject(projectId);
         setMilestones(milestones);
@@ -48,6 +54,7 @@ public class MilestoneController {
     private void refreshMilestones() {
         milestoneList.getChildren().clear();
         List<Milestone> milestones = milestoneDAO.findByProject(currentProjectId);
+        System.out.println("DEBUG: Found " + milestones.size() + " milestones.");
 
         if (milestones.isEmpty()) {
             Label empty = new Label("No milestones created yet. Wait for Supervisor approval.");
@@ -62,8 +69,11 @@ public class MilestoneController {
             card.setAlignment(Pos.CENTER_LEFT);
             card.setStyle("-fx-background-color: white; -fx-padding: 15; -fx-border-color: #eee; -fx-border-radius: 5;");
 
+            // Status Dot
             Circle dot = new Circle(8);
-            dot.setFill(m.getStatus() == MilestoneStatus.COMPLETED ? Color.web("#2ecc71") : Color.web("#bdc3c7"));
+            if (m.getStatus() == MilestoneStatus.COMPLETED) dot.setFill(Color.GREEN);
+            else if (m.getStatus() == MilestoneStatus.IN_PROGRESS) dot.setFill(Color.BLUE);
+            else dot.setFill(Color.GREY);
 
             VBox info = new VBox(2);
             Label title = new Label(m.getTitle());
@@ -103,6 +113,7 @@ public class MilestoneController {
     private void refreshComments() {
         commentBox.getChildren().clear();
         List<Comment> comments = commentService.getByProject(currentProjectId);
+        System.out.println("DEBUG: Found " + comments.size() + " comments.");
 
         if (comments.isEmpty()) {
             Label noComm = new Label("No feedback from supervisor yet.");
@@ -127,6 +138,7 @@ public class MilestoneController {
                     bubble.setAlignment(Pos.CENTER_RIGHT);
                     bubble.setStyle("-fx-background-color: #3498db; -fx-padding: 10; -fx-background-radius: 15 15 0 15; -fx-padding: 10;");
                     msg.setStyle("-fx-text-fill: white;");
+                    msg.setWrapText(true);
                     meta.setStyle("-fx-text-fill: #ecf0f1;");
                     HBox row = new HBox(bubble);
                     row.setAlignment(Pos.CENTER_RIGHT);
@@ -135,6 +147,7 @@ public class MilestoneController {
                     bubble.setAlignment(Pos.CENTER_LEFT);
                     bubble.setStyle("-fx-background-color: #95a5a6; -fx-padding: 10; -fx-background-radius: 15 15 15 0; -fx-padding: 10;");
                     msg.setStyle("-fx-text-fill: #333333; -fx-font-weight: bold;");
+                    msg.setWrapText(true);
                     HBox row = new HBox(bubble);
                     row.setAlignment(Pos.CENTER_LEFT);
                     commentBox.getChildren().add(row);

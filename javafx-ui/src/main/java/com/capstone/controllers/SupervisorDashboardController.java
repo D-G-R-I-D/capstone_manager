@@ -7,6 +7,7 @@ import com.capstone.models.enums.ProjectStatus;
 import com.capstone.services.CommentService;
 import com.capstone.services.ProjectService;
 import com.capstone.utils.Session;
+import javafx.animation.ScaleTransition;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -16,17 +17,27 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import javafx.scene.chart.*;
+import com.capstone.dao.ScorecardDAO;
+import com.capstone.models.Scorecard;
+import javafx.util.Duration;
 
 public class SupervisorDashboardController {
 
@@ -39,6 +50,13 @@ public class SupervisorDashboardController {
     @FXML private TableColumn<Project, String> studentCol;
     @FXML private TableColumn<Project, Void> fileCol;
     @FXML private TableColumn<Project, Void> actionsCol;
+    // Add these fields to the Controller class
+    @FXML private Label pendingCountLabel;
+    @FXML private Label activeCountLabel;
+    @FXML private Label completedCountLabel;
+    @FXML private PieChart statusPieChart;
+    @FXML private BarChart<String, Number> scoreBarChart;
+    @FXML private Circle profileCircle;
 
     private final ProjectService projectService = new ProjectService();
     private final CommentService commentService = new CommentService();
@@ -47,6 +65,8 @@ public class SupervisorDashboardController {
 
     @FXML
     public void initialize() {
+        Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/profilepic.jpeg")));
+        profileCircle.setFill(new ImagePattern(img));
         User supervisor = Session.getUser();
         welcomeLabel.setText("Supervisor: " + supervisor.getUsername());
 
@@ -64,13 +84,163 @@ public class SupervisorDashboardController {
         setupActionButtons();
         // 3. Load Data
         loadData();
+        loadCharts();
         setupSearchFilter();
+    }
+
+    private void loadCharts() {
+        // 1. PIE CHART (Status)
+        long pending = projectList.stream().filter(p -> p.getStatus() == ProjectStatus.PENDING).count();
+        long active = projectList.stream().filter(p -> p.getStatus() == ProjectStatus.ACTIVE).count();
+        long completed = projectList.stream().filter(p -> p.getStatus() == ProjectStatus.COMPLETED).count();
+        long rejected = projectList.stream().filter(p -> p.getStatus() == ProjectStatus.REJECTED).count();
+
+        ObservableList<PieChart.Data> pieData = FXCollections.observableArrayList(
+                new PieChart.Data("Pending", pending),
+                new PieChart.Data("Active", active),
+                new PieChart.Data("Completed", completed),
+                new PieChart.Data("Rejected", rejected)
+        );
+        statusPieChart.setData(pieData);
+        // Add Colors
+        for (PieChart.Data d : statusPieChart.getData()) {
+            switch(d.getName()) {
+//                case "Pending" -> d.getNode().setStyle("-fx-pie-color: #f1c40f;");
+//                case "Active" -> d.getNode().setStyle("-fx-pie-color: #3498db;");
+//                case "Completed" -> d.getNode().setStyle("-fx-pie-color: #2ecc71;");
+//                case "Rejected" -> d.getNode().setStyle("-fx-pie-color: #e74c3c;");
+
+                case "Active" -> d.getNode().setStyle("-fx-pie-color: #3498db;");    // Blue
+                case "Pending" -> d.getNode().setStyle("-fx-pie-color: #f1c40f;");   // Yellow
+                case "Completed" -> d.getNode().setStyle("-fx-pie-color: #2ecc71;"); // Green
+                case "Rejected" -> d.getNode().setStyle("-fx-pie-color: #e74c3c;");  // Red
+            }
+        }
+
+        // 2. BAR CHART (Scores)
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName("Final Grade (/80)");
+
+        ScorecardDAO scorecardDAO = new ScorecardDAO();
+        // Iterate through COMPLETED projects
+        for (Project p : projectList) {
+            if (p.getStatus() == ProjectStatus.COMPLETED) {
+
+                List<Scorecard> scores = scorecardDAO.findByProject(p.getId());
+                // You might need a method findByProject in ScorecardDAO
+                // For now, let's assume you fetch the score, or we just visualize completion count
+                // Simpler Approach for now: Just show project count per status if ScoreDAO is hard
+                if (scores != null && !scores.isEmpty()) {
+                    Scorecard s = scores.getFirst(); // Get the first scorecard
+                    // X-Axis: Student ID, Y-Axis: Total Score
+                    series.getData().add(new XYChart.Data<>(p.getStudentId(), s.getTotalScore()));
+                } // Placeholder or fetch real score
+            }
+        }
+        scoreBarChart.getData().clear();
+        scoreBarChart.getData().add(series);
+
+        for (PieChart.Data data : statusPieChart.getData()) {
+            // Listen for when the visual Node is created/re-created
+            data.nodeProperty().addListener((obs, oldNode, newNode) -> {
+                if (newNode != null) {
+                    handlePieHover();
+                    handlePieHoverExit();
+                }
+            });
+
+            // Also run it immediately in case the node already exists
+            if (data.getNode() != null) {
+                handlePieHover();
+                handlePieHoverExit();
+            }
+        }
+    }
+
+    @FXML
+    private void handlePieHover() {
+        // 1. Calculate the total sum of all pie slice values
+        double total = statusPieChart.getData().stream()
+                .mapToDouble(PieChart.Data::getPieValue)
+                .sum();
+        // Iterate through each data point in your PieChart
+        for (PieChart.Data data : statusPieChart.getData()) {
+            Node sliceNode = data.getNode();
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(200), sliceNode);
+
+            // 1. Handle Mouse Hover Entrance
+            sliceNode.addEventHandler(MouseEvent.MOUSE_ENTERED, _ -> {
+                // 1. Define the Scale Transition
+                scaleTransition.setToX(1.1); // Scale to 110% of original size
+                scaleTransition.setToY(1.1);
+                scaleTransition.playFromStart();
+                sliceNode.setStyle("-fx-cursor: hand;"); // Change cursor to a hand pointer
+                // Optional: show a tooltip or update a label with the value
+//                System.out.println("Hovering over: " + data.getName());
+
+                // Calculate percentage (e.g., 25.5%)
+                double percentage = (data.getPieValue() / total) * 100;
+                // Create a formatted string for the tooltip
+                String tooltipText = String.format("%s: %.1f%%", data.getName(), percentage);
+                Tooltip tooltip = new Tooltip(tooltipText);
+                // Install it onto the data's node
+                Tooltip.install(data.getNode(), tooltip);
+                // Optional: Add a listener so the tooltip updates if data values change
+                data.pieValueProperty().addListener((obs, oldVal, newVal) ->
+//                    tooltip.setText(data.getName() + ": " + newVal)
+                                tooltip.setText(tooltipText)
+                );
+                tooltip.setShowDelay(Duration.millis(200));
+
+                String status = data.getName();
+                switch (status) {
+                    case "Active" -> data.getNode().setStyle("-fx-pie-color: #3498db;");    // Blue
+                    case "Pending" -> data.getNode().setStyle("-fx-pie-color: #f1c40f;");   // Yellow
+                    case "Completed" -> data.getNode().setStyle("-fx-pie-color: #2ecc71;"); // Green
+                    case "Rejected" -> data.getNode().setStyle("-fx-pie-color: #e74c3c;");  // Red
+                }
+            });
+        }
+    }
+
+    @FXML private void handlePieHoverExit() {
+        // Iterate through each data point in your PieChart
+        for (PieChart.Data data : statusPieChart.getData()) {
+            Node sliceNode = data.getNode();
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(200), sliceNode);
+
+            // 3. Add Mouse Exit Event Handler
+            sliceNode.addEventHandler(MouseEvent.MOUSE_EXITED, _ -> {
+                scaleTransition.setToX(1.0); // Return to 100% (original size)
+                scaleTransition.setToY(1.0);
+                scaleTransition.playFromStart();
+
+                String status = data.getName();
+                switch (status) {
+                    case "Active" -> data.getNode().setStyle("-fx-pie-color: #3498db;");    // Blue
+                    case "Pending" -> data.getNode().setStyle("-fx-pie-color: #f1c40f;");   // Yellow
+                    case "Completed" -> data.getNode().setStyle("-fx-pie-color: #2ecc71;"); // Green
+                    case "Rejected" -> data.getNode().setStyle("-fx-pie-color: #e74c3c;");  // Red
+                }
+            });
+        }
     }
 
     private void loadData() {
         User supervisor = Session.getUser();
         projectList.setAll(projectService.getProjectsForSupervisor(supervisor.getId()));
 //        projectTable.setItems(projectList);
+        updateDashboardStats();
+    }
+
+    private void updateDashboardStats() {
+        long pending = projectList.stream().filter(p -> p.getStatus() == ProjectStatus.PENDING).count();
+        long active = projectList.stream().filter(p -> p.getStatus() == ProjectStatus.ACTIVE).count();
+        long completed = projectList.stream().filter(p -> p.getStatus() == ProjectStatus.COMPLETED).count();
+
+        if (pendingCountLabel != null) pendingCountLabel.setText(String.valueOf(pending));
+        if (activeCountLabel != null) activeCountLabel.setText(String.valueOf(active));
+        if (completedCountLabel != null) completedCountLabel.setText(String.valueOf(completed));
     }
 
     private void setupSearchFilter() {

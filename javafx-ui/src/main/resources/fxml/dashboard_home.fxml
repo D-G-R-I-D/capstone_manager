@@ -1,87 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.chart.*?>
-<?import javafx.geometry.Insets?>
 
-<ScrollPane fitToWidth="true" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.capstone.controllers.DashboardHomeController"
-            style="-fx-background-color: white;">
+<ScrollPane fitToWidth="true" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.capstone.controllers.DashboardHomeController">
 
     <VBox spacing="30" style="-fx-background-color: white; -fx-padding: 40;">
 
         <VBox spacing="5">
-            <Label fx:id="welcomeLabel" text="Welcome back!" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
-            <Label text="Here is the real-time status of your academic projects." style="-fx-text-fill: grey; -fx-font-size: 14px;"/>
+            <Label fx:id="welcomeLabel" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Welcome back!" />
+            <Label style="-fx-text-fill: grey; -fx-font-size: 14px;" text="Here is the real-time status of your academic projects." />
         </VBox>
 
-        <HBox spacing="20" alignment="CENTER_LEFT">
-            <VBox fx:id="rejectedBox"
-                  onMouseEntered="#handleHover"
-                  onMouseExited="#handleExit"
-                  style="-fx-background-color: rgba(204, 46, 51, 0.9); -fx-padding: 20; -fx-background-radius: 10;
-            -fx-min-width: 200; -fx-border-color: rgba(255, 255, 255, 0.3); -fx-border-width: 1; -fx-border-radius: 10;
-            -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 5);">
-                <Label text="Rejected" style="-fx-text-fill: rgba(255,255,255,0.8); -fx-font-size: 14px;"/>
-                <Label fx:id="rejectedCountLabel" text="0" style="-fx-text-fill: white; -fx-font-size: 36px; -fx-font-weight: bold;"/>
+        <HBox alignment="CENTER_LEFT" prefWidth="2303.0" spacing="20">
+            <VBox fx:id="rejectedBox" onMouseEntered="#handleHover" onMouseExited="#handleExit" prefHeight="190.0" prefWidth="344.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #f2f9ff 0%, #ffffff 100%);
+                    -fx-padding: 20; -fx-background-radius: 10;
+                    -fx-min-width: 270; -fx-min-height: 190; -fx-border-color: rgba(255, 255, 255, 0.3); -fx-border-width: 1; -fx-border-radius: 10;                     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 5);">
+                <Label style="-fx-text-fill: #7f8c8d; -fx-font-size: 14px;" text="Rejected" />
+                <Label fx:id="rejectedCountLabel" style="-fx-text-fill: #e74c3c; -fx-font-size: 36px; -fx-font-weight: bold;" text="0" />
             </VBox>
 
-            <VBox fx:id="pendingBox"
-                  onMouseEntered="#handleHover"
-                  onMouseExited="#handleExit"
-                  style="-fx-background-color: rgba(241, 196, 15, 0.9); -fx-padding: 20; -fx-background-radius: 10;
-            -fx-min-width: 200; -fx-border-color: rgba(255, 255, 255, 0.3); -fx-border-width: 1;
-            -fx-border-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 5);">
-                <Label text="Pending Approval" style="-fx-text-fill: rgba(255,255,255,0.8); -fx-font-size: 14px;"/>
-                <Label fx:id="pendingCountLabel" text="0" style="-fx-text-fill: white; -fx-font-size: 36px; -fx-font-weight: bold;"/>
+            <VBox fx:id="pendingBox" onMouseEntered="#handleHover" onMouseExited="#handleExit" prefHeight="190.0" prefWidth="344.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #f2f9ff 0%, #ffffff 100%);                        -fx-padding: 20; -fx-background-radius: 10;                        -fx-min-width: 270; -fx-min-height: 190; -fx-border-color: rgba(255, 255, 255, 0.3); -fx-border-width: 1;             -fx-border-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 5);">
+                <Label style="-fx-text-fill: #7f8c8d; -fx-font-size: 14px;" text="Pending Approval" />
+                <Label fx:id="pendingCountLabel" style="-fx-text-fill: #f1c40f; -fx-font-size: 36px; -fx-font-weight: bold;" text="0" />
             </VBox>
 
-            <VBox fx:id="activeBox"
-                  onMouseEntered="#handleHover"
-                  onMouseExited="#handleExit"
-                  style="-fx-background-color: rgba(52, 152, 219, 0.9); -fx-padding: 20; -fx-background-radius: 10;
-            -fx-min-width: 200; -fx-border-color: rgba(255, 255, 255, 0.3); -fx-border-width: 1; -fx-border-radius: 10;
-            -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 5);">
-                <Label text="Active Projects" style="-fx-text-fill: rgba(255,255,255,0.8); -fx-font-size: 14px;"/>
-                <Label fx:id="activeCountLabel" text="0" style="-fx-text-fill: white; -fx-font-size: 36px; -fx-font-weight: bold;"/>
+            <VBox fx:id="activeBox" onMouseEntered="#handleHover" onMouseExited="#handleExit" prefHeight="190.0" prefWidth="344.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #f2f9ff 0%, #ffffff 100%); -fx-padding: 20; -fx-background-radius: 10;                     -fx-min-width: 270; -fx-min-height: 190; -fx-border-color: rgba(255, 255, 255, 0.3); -fx-border-width: 1; -fx-border-radius: 10;                     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 5);">
+                <Label style="-fx-text-fill: #7f8c8d; -fx-font-size: 14px;" text="Active Projects" />
+                <Label fx:id="activeCountLabel" style="-fx-text-fill: #3498db; -fx-font-size: 36px; -fx-font-weight: bold;" text="0" />
             </VBox>
 
-            <VBox fx:id="completedBox"
-                  onMouseEntered="#handleHover"
-                  onMouseExited="#handleExit"
-                  style="-fx-background-color: rgba(46, 204, 113, 0.9); -fx-padding: 20; -fx-background-radius: 10;
-            -fx-min-width: 200; -fx-border-color: rgba(255, 255, 255, 0.3);
-            -fx-border-width: 1; -fx-border-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 5);">
-                <Label text="Completed" style="-fx-text-fill: rgba(255,255,255,0.8); -fx-font-size: 14px;"/>
-                <Label fx:id="completedCountLabel" text="0" style="-fx-text-fill: white; -fx-font-size: 36px; -fx-font-weight: bold;"/>
+            <VBox fx:id="completedBox" onMouseEntered="#handleHover" onMouseExited="#handleExit" prefHeight="190.0" prefWidth="344.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #f2f9ff 0%, #ffffff 100%); -fx-padding: 20; -fx-background-radius: 10;                     -fx-min-width: 270; -fx-min-height: 190; -fx-border-color: rgba(255, 255, 255, 0.3);                     -fx-border-width: 1; -fx-border-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 5);">
+                <Label style="-fx-text-fill: #7f8c8d; -fx-font-size: 14px;" text="Completed" />
+                <Label fx:id="completedCountLabel" style="-fx-text-fill: #2ecc71; -fx-font-size: 36px; -fx-font-weight: bold;" text="0" />
             </VBox>
 
         </HBox>
 
-        <Separator/>
+        <Separator />
 
-        <HBox spacing="20" prefHeight="250" >
+        <HBox prefHeight="250" spacing="20">
 
         </HBox>
 
-        <HBox spacing="30" VBox.vgrow="ALWAYS">
+        <HBox prefHeight="407.0" prefWidth="2303.0" spacing="30" VBox.vgrow="ALWAYS">
 
-            <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-border-color: #eee; -fx-border-radius: 10; -fx-padding: 15;">
-                <Label text="Project Status Distribution" style="-fx-font-weight: bold; -fx-text-fill: #555;"/>
-                <PieChart fx:id="statusPieChart" labelsVisible="true" legendVisible="false" maxHeight="300"/>
+            <VBox spacing="10" style="-fx-border-color: #eee; -fx-border-radius: 10; -fx-padding: 15;" HBox.hgrow="ALWAYS">
+                <Label style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Project Status Distribution" />
+                <PieChart fx:id="statusPieChart" labelsVisible="true" legendVisible="false" maxHeight="300" />
             </VBox>
 
-            <VBox spacing="10" HBox.hgrow="ALWAYS" style="-fx-border-color: #eee; -fx-border-radius: 10; -fx-padding: 15;">
-                <Label text="Milestones: Planned vs Completed" style="-fx-font-weight: bold; -fx-text-fill: #555;"/>
-                <BarChart fx:id="milestoneBarChart"
-                          onMouseEntered="#handlePieHover"
-                          onMouseExited="#handlePieHoverExit" maxHeight="300">
+            <VBox spacing="10" style="-fx-border-color: #eee; -fx-border-radius: 10; -fx-padding: 15;" HBox.hgrow="ALWAYS">
+                <Label style="-fx-font-weight: bold; -fx-text-fill: #555;" text="Milestones: Planned vs Completed" />
+                <BarChart fx:id="milestoneBarChart" maxHeight="300" onMouseEntered="#handlePieHover" onMouseExited="#handlePieHoverExit">
                     <xAxis><CategoryAxis label="Projects" /></xAxis>
                     <yAxis><NumberAxis label="Count" /></yAxis>
                 </BarChart>
             </VBox>
 
         </HBox>
-    <Label text="©Copy right" alignment="CENTER" style="-fx-text-fill: #2c3e50"/>
+    <Label alignment="CENTER" style="-fx-text-fill: #2c3e50" text="©Copy right" />
     </VBox>
 </ScrollPane>
