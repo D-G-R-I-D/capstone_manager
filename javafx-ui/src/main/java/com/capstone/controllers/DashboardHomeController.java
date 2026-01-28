@@ -108,10 +108,16 @@ public class DashboardHomeController {
                 if (p.getStatus() == ProjectStatus.ACTIVE || p.getStatus() == ProjectStatus.COMPLETED) {
                     // Fetch milestones for this project
                     List<Milestone> mList = milestoneService.getByProject(p.getId());
-
-                    if (mList.isEmpty()) continue;
-                    long doneCount = mList.stream().filter(m -> m.getStatus() == MilestoneStatus.COMPLETED).count();
-                    long pendingCount = mList.stream().filter(m -> m.getStatus() != MilestoneStatus.PENDING).count();
+//                    if (mList.isEmpty()) continue;
+                    long doneCount;
+                    long pendingCount;
+                    if (p.getStatus() == ProjectStatus.COMPLETED) {
+                        doneCount = (mList.isEmpty()) ? 4 : mList.size(); // Default to 4 if empty
+                        pendingCount = 0;
+                    } else {
+                        doneCount = mList.stream().filter(m -> m.getStatus() == MilestoneStatus.COMPLETED).count();
+                        pendingCount = mList.stream().filter(m -> m.getStatus() != MilestoneStatus.PENDING).count();
+                    }
 
                     System.out.println("DEBUG: Active=" + active + ", Pending=" + pending + ", Completed=" + completed);
                     seriesPlanned.getData().add(new XYChart.Data<>(p.getTitle(), pendingCount));

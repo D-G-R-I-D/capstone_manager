@@ -211,7 +211,7 @@ public class SupervisorDashboardController {
                         // Only show comment button if already active
                         commentBtn.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-cursor: hand;");
                         HBox centerBox = new HBox(commentBtn);
-                        centerBox.setAlignment(Pos.CENTER);
+//                        centerBox.setAlignment(Pos.CENTER);
                         setGraphic(centerBox);
                     }
                 }

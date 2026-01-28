@@ -106,15 +106,16 @@ public class MilestoneController {
 
         if (comments.isEmpty()) {
             Label noComm = new Label("No feedback from supervisor yet.");
-            noComm.setStyle("-fx-text-fill: grey; -fx-font-style: italic;");
+            noComm.setStyle("-fx-text-fill: grey; -fx-font-style: italic; -fx-padding: 10;");
             commentBox.getChildren().add(noComm);
         } else {
+            String myId = Session.getUser().getId(); // Get logged-in Student ID
             for (Comment c : comments) {
                 // Determine if it's "Me" or "Supervisor" based on Session
-                boolean isMe = c.getAuthorId().equals(Session.getUser().getId());
+                boolean isMe = c.getAuthorId().equals(myId);
 
                 VBox bubble = new VBox(5);
-                bubble.setMaxWidth(400);
+                bubble.setMaxWidth(300);
 
                 Label msg = new Label(c.getMessage());
                 msg.setWrapText(true);
@@ -124,12 +125,19 @@ public class MilestoneController {
 
                 if (isMe) {
                     bubble.setAlignment(Pos.CENTER_RIGHT);
-                    bubble.setStyle("-fx-background-color: #3498db; -fx-padding: 10; -fx-background-radius: 10 10 0 10;");
+                    bubble.setStyle("-fx-background-color: #3498db; -fx-padding: 10; -fx-background-radius: 15 15 0 15; -fx-padding: 10;");
                     msg.setStyle("-fx-text-fill: white;");
+                    meta.setStyle("-fx-text-fill: #ecf0f1;");
+                    HBox row = new HBox(bubble);
+                    row.setAlignment(Pos.CENTER_RIGHT);
+                    commentBox.getChildren().add(row);
                 } else {
                     bubble.setAlignment(Pos.CENTER_LEFT);
-                    bubble.setStyle("-fx-background-color: #95a5a6; -fx-padding: 10; -fx-background-radius: 10 10 10 0;");
-                    msg.setStyle("-fx-text-fill: white;");
+                    bubble.setStyle("-fx-background-color: #95a5a6; -fx-padding: 10; -fx-background-radius: 15 15 15 0; -fx-padding: 10;");
+                    msg.setStyle("-fx-text-fill: #333333; -fx-font-weight: bold;");
+                    HBox row = new HBox(bubble);
+                    row.setAlignment(Pos.CENTER_LEFT);
+                    commentBox.getChildren().add(row);
                 }
 
                 bubble.getChildren().addAll(msg, meta);
