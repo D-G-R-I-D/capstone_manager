@@ -77,7 +77,9 @@ public class CommentDAO implements CommentDAOinterface {
             ps.setString(4, c.getMessage());
             ps.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
             ps.executeUpdate();
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) {
+            LOGGER.severe("Could not save comment to database" + e.getMessage());
+        }
         return false;
     }
 

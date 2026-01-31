@@ -48,6 +48,7 @@ public class DashboardHomeController {
             welcomeLabel.setText("Welcome back, " + username + "!");
 
             // Load Real Stats
+            assert Session.getUser() != null;
             List<Project> myProjects = projectService.getProjectsForStudent(Session.getUser().getId());
             if (myProjects == null) myProjects = new ArrayList<>(); // Prevent crash if null
 

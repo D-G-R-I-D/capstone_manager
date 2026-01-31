@@ -176,13 +176,14 @@ public class MyProjectsController {
         popup.setTitle("Create New Project");
 
         VBox root = new VBox(15);
-        root.setStyle("-fx-padding: 25; -fx-alignment: center; -fx-background-color: #f4f4f4;");
+        root.setStyle("-fx-padding: 25; -fx-alignment: center;-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #f2f9ff 0%, #ffffff 100%);");
 
         TextField titleIn = new TextField(); titleIn.setPromptText("Project Title");
         TextField emailIn = new TextField(); emailIn.setPromptText("Supervisor Email");
         Label fileLabel = new Label("No file attached");
 
         Button fileBtn = new Button("Attach Document");
+        fileBtn.getStyleClass().add("view-button");
         fileBtn.setOnAction(e -> {
             FileChooser fc = new FileChooser();
             selectedFile = fc.showOpenDialog(popup);
@@ -190,6 +191,7 @@ public class MyProjectsController {
         });
 
         Button saveBtn = new Button("Save Project");
+        saveBtn.getStyleClass().add("view-button");
         saveBtn.setOnAction(e -> processProjectCreation(titleIn.getText(), emailIn.getText(), popup));
 
         root.getChildren().addAll(new Label("New Project Details"), titleIn, emailIn, fileBtn, fileLabel, saveBtn);

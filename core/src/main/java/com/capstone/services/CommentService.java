@@ -11,15 +11,20 @@ public class CommentService {
     private final CommentDAO commentDAO = new CommentDAO();
 
     public void add(String  projectId, String authorId, String message, String parentId) {
-        Comment c = new Comment(
-                IdGenerator.generateId(),       //UUID.randomUUID().toString(),
-                projectId,
-                authorId,
-                message,
-                parentId,
-                LocalDateTime.now()
-        );
-        commentDAO.save(c);
+        try {
+            Comment c = new Comment(
+                    IdGenerator.generateId(),       //UUID.randomUUID().toString(),
+                    projectId,
+                    authorId,
+                    message,
+                    parentId,
+                    LocalDateTime.now()
+            );
+            commentDAO.save(c);
+        } catch (Exception e) {
+            System.out.println("could not add / Debug: comment service");
+            throw new RuntimeException(e);
+        }
     }
 
     public List<Comment> getByProject(String projectId) {

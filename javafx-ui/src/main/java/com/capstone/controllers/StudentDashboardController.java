@@ -30,6 +30,7 @@ public class StudentDashboardController {
 
     @FXML
     public void initialize() {
+        Guard.require(Role.STUDENT);
         Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/profilepic.jpeg")));
         profileCircle.setFill(new ImagePattern(img));
         // Guard.require(Role.STUDENT); // Uncomment if Guard is active

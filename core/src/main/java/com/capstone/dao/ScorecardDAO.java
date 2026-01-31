@@ -111,7 +111,7 @@ public class ScorecardDAO implements ScoreCardDAOinterface {
                 rs.getString("project_id"),
                 rs.getString("graded_by"),
                 Role.valueOf(rs.getString("role")),
-                rs.getBoolean(rs.getString("override")),
+                rs.getBoolean("override"),
                 rs.getInt("technical_depth"),
                 rs.getInt("problem_solving"),
                 rs.getInt("presentation"),

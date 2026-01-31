@@ -98,7 +98,6 @@ public class UserDAO implements UserDAOinterface {
             while (rs.next()) list.add(mapUser(rs));
 
         } catch (SQLException e) { LOGGER.severe("Failed to get all users: " + e.getMessage());}
-
         return list;
     }
 

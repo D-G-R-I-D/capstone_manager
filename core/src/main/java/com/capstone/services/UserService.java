@@ -15,7 +15,7 @@ import java.util.UUID;
 public class UserService {
     private final UserDAO userDAO = new UserDAO();
 
-    public User register(String username, String email, @NotNull String password, Role role) {
+    public void register(String username, String email, @NotNull String password, Role role) {
         // Validate input
         if (username == null || username.trim().isEmpty()) {
             throw new IllegalArgumentException("Username is required");
@@ -45,7 +45,6 @@ public class UserService {
             throw new RuntimeException("Unexpected error during registration", e);
         }
 
-        return user;
     }
 
     public void updateRole(String userId, Role newRole) {

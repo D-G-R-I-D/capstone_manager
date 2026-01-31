@@ -39,7 +39,13 @@
 */
 
 #welcomeLabel: hover {
-    -fx-underline: true;
+  -fx-underline: true;
+}
+
+#adminNameLabel: hover{
+ -fx-underline: true;
+ -fx-translate-y: -1.00;
+ -fx-translate-x: -1.00;
 }
 
 #studentName: hover {

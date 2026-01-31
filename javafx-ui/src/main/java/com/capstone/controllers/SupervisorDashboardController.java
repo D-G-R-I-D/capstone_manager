@@ -4,8 +4,10 @@ import com.capstone.javafxui.MainApp;
 import com.capstone.models.Project;
 import com.capstone.models.User;
 import com.capstone.models.enums.ProjectStatus;
+import com.capstone.models.enums.Role;
 import com.capstone.services.CommentService;
 import com.capstone.services.ProjectService;
+import com.capstone.utils.Guard;
 import com.capstone.utils.Session;
 import javafx.animation.ScaleTransition;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -25,6 +27,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -34,12 +37,15 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.logging.Logger;
+
 import javafx.scene.chart.*;
 import com.capstone.dao.ScorecardDAO;
 import com.capstone.models.Scorecard;
 import javafx.util.Duration;
 
 public class SupervisorDashboardController {
+    private static final Logger LOGGER =Logger.getLogger(SupervisorDashboardController.class.getName());
 
     @FXML private TableColumn<Project, String> numCol;    // Numbering
     @FXML private Label welcomeLabel;
@@ -65,6 +71,7 @@ public class SupervisorDashboardController {
 
     @FXML
     public void initialize() {
+        Guard.require(Role.SUPERVISOR);
         Image img = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/profilepic.jpeg")));
         profileCircle.setFill(new ImagePattern(img));
         User supervisor = Session.getUser();
@@ -406,7 +413,7 @@ public class SupervisorDashboardController {
 
             loadData(); // Refresh table to show it moved to COMPLETED
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.severe("Could not load project scoring page" + e.getMessage());
         }
     }
 
@@ -428,7 +435,31 @@ public class SupervisorDashboardController {
         try {
             File file = new File(path);
             if (file.exists()) java.awt.Desktop.getDesktop().open(file);
-        } catch (IOException e) { e.printStackTrace(); }
+        } catch (IOException e) {
+            LOGGER.severe("Could not open file" + e.getMessage()); }
+    }
+
+    @FXML
+    private void handleHover(MouseEvent event) {
+        VBox source = (VBox) event.getSource();
+        String currentStyle = source.getStyle();
+
+        source.setStyle(currentStyle.replace("0.9)", "1.0)"));
+
+        // Optional: Make it lift slightly
+        source.setTranslateY(-5);
+    }
+
+    @FXML
+    private void handleExit(MouseEvent event) {
+        VBox source = (VBox) event.getSource();
+        String currentStyle = source.getStyle();
+
+        // Change it back to 0.4
+        source.setStyle(currentStyle.replace("1.0)", "0.9)"));
+
+        // Reset position
+        source.setTranslateY(0);
     }
 
     @FXML
@@ -458,7 +489,7 @@ public class SupervisorDashboardController {
                 stage.setScene(new Scene(root));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.severe("Could not handle logout" + e.getMessage());
         }
     }
 }
