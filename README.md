@@ -7,8 +7,6 @@ MVC architecture
 
 Role-based access
 
-JSP + Servlets
-
 JDBC persistence
 
 
